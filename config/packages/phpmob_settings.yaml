@@ -1,0 +1,27 @@
+# use with doctrine orm
+doctrine:
+    orm:
+        mappings:
+            PhpMobSettings:
+                type: xml
+                is_bundle: false
+                prefix: PhpMob\Settings\Model
+                dir: '%kernel.project_dir%/vendor/phpmob/settings-bundle/src/Resources/config/doctrine/model'
+
+phpmob_settings:
+    schemas:
+        website:
+            label: Website
+            settings:
+                name:
+                    label: Name
+                    value: Your website name
+                    blueprint:
+                        options:
+                            required: true
+                description:
+                    label: Description
+                    value: Your website description
+                    blueprint:
+                        options:
+                            required: true

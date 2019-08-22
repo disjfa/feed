@@ -1,0 +1,29 @@
+{% extends 'base.html.twig' %}
+
+{% block main %}
+    <div class="container">
+        <h1>Feeds</h1>
+        <table class="table">
+            <thead>
+            <tr>
+                <th>Name</th>
+                <th>Url</th>
+                <th></th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for feed in feeds %}
+                <tr>
+                    <td>{{ feed.title }}</td>
+                    <td>{{ feed.baseUrl }}</td>
+                    <td>
+                        <a href="{{ path('feed_show', {'feed': feed.id}) }}">
+                            <i class="fad fa-pencil"></i>
+                        </a>
+                    </td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
+{% endblock %}

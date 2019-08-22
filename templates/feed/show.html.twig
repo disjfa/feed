@@ -1,0 +1,11 @@
+{% extends 'base.html.twig' %}
+
+{% block main %}
+    <div class="container">
+        <h1>{{ feed.title }}</h1>
+        <p>
+            {{ feed.description }}
+        </p>
+        <a href="{{ path('feed_handle', {'feed': feed.id}) }}">handle</a>
+    </div>
+{% endblock %}
