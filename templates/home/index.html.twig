@@ -5,16 +5,6 @@
 {% block main %}
     <div class="container">
         <h1>Hello</h1>
-        {% for item in items %}
-            <div class="card my-2">
-                <div class="card-body">
-                    <h3>{{ item.title }}</h3>
-                    <p>{{ item.description | striptags }}</p>
-                    <a href="{{ item.guid }}">aa</a>
-                    {{ item.origin }}
-                    {{ item.originId }}
-                </div>
-            </div>
-        {% endfor %}
+        {% include 'item/list_items.html.twig' %}
     </div>
 {% endblock %}

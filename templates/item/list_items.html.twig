@@ -1,0 +1,16 @@
+{% for item in items %}
+    <div class="card my-2">
+        <div class="card-body">
+            <h3>{{ item.title }}</h3>
+            <p>{{ item.description | striptags }}</p>
+            <div class="text-danger">{{ item.link | default(item.guid) }}</div>
+            <small>{{ item.pubDate | date }}</small>
+            {% for origin in item.origins %}
+                <div>
+                    {{ origin.origin }}
+                    {{ origin.originId }}
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+{% endfor %}

@@ -3,8 +3,13 @@
 namespace App\Controller;
 
 use App\Entity\Feed;
+use App\Entity\Item;
 use App\Message\IndexFeed;
+use App\Repository\ItemRepository;
+use App\Services\OriginManager;
 use DateTime;
+use Doctrine\Common\Persistence\ObjectRepository;
+use Doctrine\ORM\NonUniqueResultException as NonUniqueResultExceptionAlias;
 use Exception;
 use InvalidArgumentException;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -30,6 +35,8 @@ class FeedController extends AbstractController
      */
     public function index()
     {
+        $this->denyAccessUnlessGranted('ROLE_USER');
+
         $feeds = $this->getDoctrine()->getRepository(Feed::class)->findAll();
 
         return $this->render('feed/index.html.twig', [
@@ -52,6 +59,8 @@ class FeedController extends AbstractController
      */
     public function create(Request $request)
     {
+        $this->denyAccessUnlessGranted('ROLE_ADMIN');
+
         $form = $this->createFormBuilder()
             ->add('link', UrlType::class, [
                 'required' => true,
@@ -85,7 +94,9 @@ class FeedController extends AbstractController
                 if ($crawler->filter('channel > pubDate')->count()) {
                     $feed->setPubDate(new DateTime($crawler->filter('channel > pubDate')->text()));
                 }
-                $feed->setLastBuildDate(new DateTime($crawler->filter('channel > lastBuildDate')->text()));
+                if ($crawler->filter('channel > lastBuildDate')->count()) {
+                    $feed->setLastBuildDate(new DateTime($crawler->filter('channel > lastBuildDate')->text()));
+                }
                 $this->getDoctrine()->getManager()->persist($feed);
                 $this->getDoctrine()->getManager()->flush();
                 $this->addFlash('success', 'Feed indexed');
@@ -106,15 +117,33 @@ class FeedController extends AbstractController
     /**
      * @Route("/feed/{feed}", name="feed_show")
      *
-     * @param Feed $feed
+     * @param Feed          $feed
+     * @param OriginManager $originManager
      *
      * @return Response
+     *
+     * @throws NonUniqueResultExceptionAlias
      */
-    public function show(Feed $feed)
+    public function show(Feed $feed, OriginManager $originManager)
     {
+        $this->denyAccessUnlessGranted('ROLE_USER');
+
+        $origin = $originManager->getOriginByOriginInterface($feed);
+        $items = $this->getItemRpository()->findByOrigin($origin);
+
         return $this->render('feed/show.html.twig', [
             'feed' => $feed,
+            'origin' => $origin,
+            'items' => $items,
         ]);
+    }
+
+    /**
+     * @return ItemRepository|ObjectRepository
+     */
+    private function getItemRpository()
+    {
+        return $this->getDoctrine()->getRepository(Item::class);
     }
 
     /**
@@ -127,6 +156,8 @@ class FeedController extends AbstractController
      */
     public function handle(MessageBusInterface $messageBus, Feed $feed)
     {
+        $this->denyAccessUnlessGranted('ROLE_ADMIN');
+
         $messageBus->dispatch(new IndexFeed($feed->getId()));
 
         $this->addFlash('success', 'Feed indexed');

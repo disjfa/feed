@@ -3,6 +3,7 @@
 namespace App\Entity;
 
 use DateTime;
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 use Exception;
 use Ramsey\Uuid\Uuid;
@@ -20,24 +21,19 @@ class Item
     private $id;
     /**
      * @var string
-     * @ORM\Column(type="string")
+     * @ORM\Column(type="string", nullable=true)
      */
     private $title;
     /**
      * @var string
-     * @ORM\Column(type="string")
+     * @ORM\Column(type="string", nullable=true)
      */
     private $guid;
     /**
-     * @var string
-     * @ORM\Column(type="string")
+     * @var string|null
+     * @ORM\Column(type="string", nullable=true)
      */
-    private $origin;
-    /**
-     * @var string
-     * @ORM\Column(type="string")
-     */
-    private $originId;
+    private $link;
     /**
      * @var string|null
      * @ORM\Column(type="text", nullable=true)
@@ -48,6 +44,11 @@ class Item
      * @ORM\Column(type="datetime", nullable=true)
      */
     private $pubDate;
+    /**
+     * @var Origin[]
+     * @ORM\ManyToMany(targetEntity="Origin", cascade={"persist"})
+     */
+    private $origins;
 
     /**
      * @throws Exception
@@ -55,6 +56,7 @@ class Item
     public function __construct()
     {
         $this->id = Uuid::uuid4();
+        $this->origins = new ArrayCollection();
     }
 
     /**
@@ -100,6 +102,22 @@ class Item
     /**
      * @return string|null
      */
+    public function getLink(): ?string
+    {
+        return $this->link;
+    }
+
+    /**
+     * @param string|null $link
+     */
+    public function setLink(?string $link): void
+    {
+        $this->link = $link;
+    }
+
+    /**
+     * @return string|null
+     */
     public function getDescription(): ?string
     {
         return $this->description;
@@ -130,34 +148,37 @@ class Item
     }
 
     /**
-     * @return string
+     * @return ArrayCollection|Origin[]
      */
-    public function getOrigin(): string
+    public function getOrigins()
     {
-        return $this->origin;
+        return $this->origins;
     }
 
     /**
-     * @param string $origin
+     * @param Origin $itemOrigin
      */
-    public function setOrigin(string $origin): void
+    public function addOrigin(Origin $itemOrigin)
     {
-        $this->origin = $origin;
+        if ($this->origins->contains($itemOrigin)) {
+            return;
+        }
+        foreach ($this->origins as $origin) {
+            if ($origin->equals($itemOrigin)) {
+                return;
+            }
+        }
+
+        $this->origins->add($itemOrigin);
     }
 
     /**
-     * @return string
+     * @param Origin $itemOrigin
      */
-    public function getOriginId(): string
+    public function removeOrigin(Origin $itemOrigin)
     {
-        return $this->originId;
-    }
-
-    /**
-     * @param string $originId
-     */
-    public function setOriginId(string $originId): void
-    {
-        $this->originId = $originId;
+        if ($this->origins->contains($itemOrigin)) {
+            $this->origins->removeElement($itemOrigin);
+        }
     }
 }

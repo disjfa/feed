@@ -3,24 +3,31 @@
 {% block main %}
     <div class="container">
         <h1>Feeds</h1>
+        {% if is_granted('ROLE_ADMIN') %}
+            <div class="pb-3">
+                <a href="{{ path('feed_create') }}" class="btn btn-outline-primary">
+                    <i class="fad fa-plus"></i>
+                    Create new feed
+                </a>
+            </div>
+        {% endif %}
         <table class="table">
             <thead>
             <tr>
                 <th>Name</th>
                 <th>Url</th>
-                <th></th>
             </tr>
             </thead>
             <tbody>
             {% for feed in feeds %}
                 <tr>
-                    <td>{{ feed.title }}</td>
-                    <td>{{ feed.baseUrl }}</td>
                     <td>
                         <a href="{{ path('feed_show', {'feed': feed.id}) }}">
-                            <i class="fad fa-pencil"></i>
+                            <i class="fad fa-rss"></i>
+                            {{ feed.title }}
                         </a>
                     </td>
+                    <td>{{ feed.baseUrl }}</td>
                 </tr>
             {% endfor %}
             </tbody>

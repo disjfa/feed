@@ -6,14 +6,15 @@ use DateTime;
 use Doctrine\ORM\Mapping as ORM;
 use Exception;
 use Ramsey\Uuid\Uuid;
+use Ramsey\Uuid\UuidInterface;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\FeedRepository")
  */
-class Feed
+class Feed implements OriginInterface
 {
     /**
-     * @var string
+     * @var Uuid|UuidInterface
      * @ORM\Id()
      * @ORM\Column(type="string")
      */
@@ -48,6 +49,11 @@ class Feed
      * @ORM\Column(type="datetime", nullable=true)
      */
     private $pubDate;
+    /**
+     * @var DateTime|null
+     * @ORM\Column(type="datetime", nullable=true)
+     */
+    private $indexed;
 
     /**
      * @throws Exception
@@ -55,14 +61,15 @@ class Feed
     public function __construct()
     {
         $this->id = Uuid::uuid4();
+        $this->indexed = new DateTime();
     }
 
     /**
-     * @return string|null
+     * @return string
      */
-    public function getId(): ?string
+    public function getId(): string
     {
-        return $this->id;
+        return  $this->id;
     }
 
     /**
@@ -159,5 +166,21 @@ class Feed
     public function setPubDate(?DateTime $pubDate): void
     {
         $this->pubDate = $pubDate;
+    }
+
+    /**
+     * @return DateTime|null
+     */
+    public function getIndexed(): ?DateTime
+    {
+        return $this->indexed;
+    }
+
+    /**
+     * @param DateTime|null $indexed
+     */
+    public function setIndexed(?DateTime $indexed): void
+    {
+        $this->indexed = $indexed;
     }
 }

@@ -25,9 +25,15 @@
     <body>
     {% block wrapper %}
         {% block header %}
-            <nav class="navbar navbar-expand-lg {% block navbar_nav_class %}navbar-light bg-light{% endblock %}">
+            <div class="py-4"><br></div>
+            <nav class="navbar navbar-expand-lg fixed-top {% block navbar_nav_class %}navbar-light bg-light{% endblock %}">
                 <div class="container">
-                    <a class="navbar-brand" href="{{ path('home_index') }}">{% block navbar_brand %}{{ 'site.navbar.title' | trans }}{% endblock %}</a>
+                    <a class="navbar-brand" href="{{ path('home_index') }}">
+                        {% block navbar_brand %}
+                            <i class="fad fa-rss"></i>
+                            {{ 'site.navbar.title' | trans }}
+                        {% endblock %}
+                    </a>
                     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#main-navbar" aria-controls="main-navbar" aria-expanded="false" aria-label="{{ 'site.navbar.toggle_navigation' | trans }}">
                         <span class="navbar-toggler-icon"></span>
                     </button>
@@ -36,6 +42,24 @@
                         {% block user_menu %}
                             <ul class="navbar-nav ml-auto">
                                 {% if app.user %}
+                                    {% if is_granted('ROLE_ADMIN') %}
+                                        <li class="nav-item dropdown">
+                                            <a class="nav-link dropdown-toggle" href="#" id="nav-admin" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                <i class="fad fa-cog"></i>
+                                                {{ 'site.navbar.admin' | trans }}
+                                            </a>
+                                            <div class="dropdown-menu" aria-labelledby="nav-admin">
+                                                <a href="{{ path('feed_index') }}" class="dropdown-item">
+                                                    <i class="fad fa-rss"></i>
+                                                    {{ 'site.navbar.feeds' | trans }}
+                                                </a>
+                                                <a href="{{ path('phpmob_settings_section_update', {'section':'pwa'}) }}" class="dropdown-item">
+                                                    <i class="fad fa-cogs"></i>
+                                                    {{ 'site.navbar.settings' | trans }}
+                                                </a>
+                                            </div>
+                                        </li>
+                                    {% endif %}
                                     <li class="nav-item">
                                         <a href="{{ path('fos_user_profile_show') }}" class="nav-link">
                                             <i class="fad fa-user"></i>

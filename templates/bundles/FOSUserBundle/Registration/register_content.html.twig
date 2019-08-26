@@ -5,14 +5,14 @@
         {{ form_start(form, {'method': 'post', 'action': path('fos_user_registration_register'), 'attr': {'class': 'fos_user_registration_register'}}) }}
         <div class="card bg-light">
             <div class="card-header bg-primary text-white   ">
-                <i class="fa fa-user"></i>
+                <i class="fad fa-user"></i>
                 Registration
             </div>
             <div class="card-body">
                 {{ form_widget(form) }}
                 <div>
                     <button type="submit" class="btn btn-primary">
-                        <i class="fa fa-sign-in-alt"></i>
+                        <i class="fad fa-sign-in-alt"></i>
                         {{ 'registration.submit' | trans }}
                     </button>
                 </div>

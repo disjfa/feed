@@ -63,8 +63,8 @@ phpmob_settings:
                 favicon:
                     label: Icon
                     value: '/pwa-icon.png'
-                    blueprint:
-                        type: Disjfa\MediaBundle\Form\Type\MediaType
+#                    blueprint:
+#                        type: Disjfa\MediaBundle\Form\Type\MediaType
 
 liip_imagine:
     filter_sets:

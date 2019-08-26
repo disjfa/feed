@@ -1,0 +1,35 @@
+{% extends "base.html.twig" %}
+
+{% block content_title %}
+    Settings
+{% endblock %}
+
+{% block main %}
+    <div class="container ">
+        <div class="row">
+            <div class="col-12 col-md-4 py-3">
+                <div class="list-group" role="list">
+                    {% for sec in sections %}
+                        {% set isActive = sec.name == section.name %}
+                        <a class="list-group-item {{ isActive ? ' active' : '' }}"
+                           href="{{ path('phpmob_settings_section_update', { section: sec.name }) }}">
+                            {{ sec.label|trans }}
+                        </a>
+                    {% endfor %}
+                </div>
+            </div>
+            <div class="col-12 col-md-8 py-3">
+                <h2>{{ section.label|trans }}</h2>
+                {% if section.description %}
+                    <p>{{ section.description|trans }}</p>
+                {% endif %}
+                {{ form_start(form) }}
+                {{ form_errors(form) }}
+                {# need to custom form view to use form.XXX.vars['description'] #}
+                {{ form_row(form, { label: false }) }}
+                <button type="submit" class="btn btn-primary">Update</button>
+                {{ form_end(form) }}
+            </div>
+        </div>
+    </div>
+{% endblock %}

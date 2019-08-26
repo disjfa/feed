@@ -1,0 +1,3 @@
+_phpmob_settings:
+    resource: '@PhpMobSettingsBundle/Resources/config/routing.xml'
+    prefix:  /

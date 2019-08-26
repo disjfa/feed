@@ -2,11 +2,11 @@
 
 namespace App\MessageHandler;
 
-use App\Entity\Feed;
 use App\Entity\Item;
 use App\Message\IndexFeed;
 use App\Repository\FeedRepository;
 use App\Repository\ItemRepository;
+use App\Services\OriginManager;
 use DateTime;
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\EntityManagerInterface;
@@ -34,19 +34,25 @@ class IndexFeedHandler implements MessageHandlerInterface
      * @var EntityManager
      */
     private $entityManager;
+    /**
+     * @var OriginManager
+     */
+    private $originManager;
 
     /**
      * IndexFeedHandler constructor.
      *
-     * @param FeedRepository $feedRepository
-     * @param ItemRepository $itemRepository
-     * @param EntityManager  $entityManager
+     * @param FeedRepository         $feedRepository
+     * @param ItemRepository         $itemRepository
+     * @param EntityManagerInterface $entityManager
+     * @param OriginManager          $originManager
      */
-    public function __construct(FeedRepository $feedRepository, ItemRepository $itemRepository, EntityManagerInterface $entityManager)
+    public function __construct(FeedRepository $feedRepository, ItemRepository $itemRepository, EntityManagerInterface $entityManager, OriginManager $originManager)
     {
         $this->feedRepository = $feedRepository;
         $this->itemRepository = $itemRepository;
         $this->entityManager = $entityManager;
+        $this->originManager = $originManager;
     }
 
     /**
@@ -79,10 +85,14 @@ class IndexFeedHandler implements MessageHandlerInterface
             $title = $aa->filter('title')->text();
             $description = $aa->filter('description')->text();
             $guid = $aa->filter('guid')->text();
-
+            $link = null;
+            if ($aa->filter('link')->count()) {
+                $link = $aa->filter('link')->text();
+            }
             $item = $this->itemRepository->findOneBy([
                 'guid' => $guid,
             ]);
+
             if (null === $item) {
                 $item = new Item();
             }
@@ -91,8 +101,11 @@ class IndexFeedHandler implements MessageHandlerInterface
             $item->setTitle($title);
             $item->setDescription($description);
             $item->setGuid($guid);
-            $item->setOrigin(Feed::class);
-            $item->setOriginId($feed->getId());
+            $item->setLink($link);
+
+            $origin = $this->originManager->getOriginByOriginInterface($feed);
+            $item->addOrigin($origin);
+
             $this->entityManager->persist($item);
             $this->entityManager->flush();
         }

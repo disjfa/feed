@@ -2,19 +2,22 @@
 
 namespace App\Entity;
 
+use Exception;
 use FOS\UserBundle\Model\User as BaseUser;
 use Doctrine\ORM\Mapping as ORM;
+use Ramsey\Uuid\Uuid;
+use Ramsey\Uuid\UuidInterface;
 
 /**
  * @ORM\Entity
  * @ORM\Table(name="fos_user")
  */
-class User extends BaseUser
+class User extends BaseUser implements OriginInterface
 {
     /**
+     * @var Uuid|UuidInterface
      * @ORM\Id
-     * @ORM\Column(type="integer")
-     * @ORM\GeneratedValue(strategy="AUTO")
+     * @ORM\Column(type="string")
      */
     protected $id;
 
@@ -34,9 +37,23 @@ class User extends BaseUser
      * @ORM\Column(type="string", nullable=true)
      */
     protected $facebookAccessToken;
+    /**
+     * @var UserOrigin[]
+     * @ORM\OneToMany(targetEntity="UserOrigin", mappedBy="user")
+     */
+    protected $userOrigins;
 
     /**
-     * @return mixed
+     * @throws Exception
+     */
+    public function __construct()
+    {
+        $this->id = Uuid::uuid4();
+        parent::__construct();
+    }
+
+    /**
+     * @return string
      */
     public function getId()
     {
@@ -89,5 +106,21 @@ class User extends BaseUser
     public function setFacebookAccessToken(?string $facebookAccessToken): void
     {
         $this->facebookAccessToken = $facebookAccessToken;
+    }
+
+    /**
+     * @return UserOrigin[]
+     */
+    public function getUserOrigins(): array
+    {
+        return $this->userOrigins;
+    }
+
+    /**
+     * @param UserOrigin[] $userOrigins
+     */
+    public function setUserOrigins(array $userOrigins): void
+    {
+        $this->userOrigins = $userOrigins;
     }
 }
