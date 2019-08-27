@@ -3,26 +3,30 @@
 {% block main %}
     <div class="container">
         <h1>{{ feed.title }}</h1>
-        <p>
-            {{ feed.description }}
-        </p>
-        {% if is_granted('ROLE_ADMIN') %}
-            <a href="{{ path('feed_handle', {'feed': feed.id}) }}" class="btn btn-outline-primary">
-                <i class="fad fa-recycle"></i>
-                handle
-            </a>
-        {% endif %}
-        {% if following(app.user, origin) %}
-            <a href="{{ path('origin_unfollow', {'origin': origin.id}) }}" class="btn btn-primary">
-                following
-            </a>
-        {% else %}
-            <a href="{{ path('origin_follow', {'origin': origin.id}) }}" class="btn btn-outline-primary">
-                follow
-            </a>
-        {% endif %}
-
-        <hr>
-        {% include 'item/list_items.html.twig' %}
+        <div class="row">
+            <div class="col-lg-7">
+                {% include 'item/list_items.html.twig' %}
+            </div>
+            <div class="col-lg-5">
+                <p>
+                    {{ feed.description }}
+                </p>
+                {% if is_granted('ROLE_ADMIN') %}
+                    <a href="{{ path('feed_handle', {'feed': feed.id}) }}" class="btn btn-outline-primary">
+                        <i class="fad fa-recycle"></i>
+                        handle
+                    </a>
+                {% endif %}
+                {% if following(app.user, origin) %}
+                    <a href="{{ path('origin_unfollow', {'origin': origin.id}) }}" class="btn btn-primary">
+                        following
+                    </a>
+                {% else %}
+                    <a href="{{ path('origin_follow', {'origin': origin.id}) }}" class="btn btn-outline-primary">
+                        follow
+                    </a>
+                {% endif %}
+            </div>
+        </div>
     </div>
 {% endblock %}

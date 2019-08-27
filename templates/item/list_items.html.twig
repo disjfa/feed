@@ -1,16 +1,25 @@
 {% for item in items %}
     <div class="card my-2">
+        {% if item.imageUrl %}
+            <img src="{{ asset(item.imagePath) | imagine_filter('medium') }}" alt="" class="card-img-top">
+        {% endif %}
         <div class="card-body">
             <h3>{{ item.title }}</h3>
-            <p>{{ item.description | striptags }}</p>
-            <div class="text-danger">{{ item.link | default(item.guid) }}</div>
             <small>{{ item.pubDate | date }}</small>
+            <p>{{ item.description | striptags }}</p>
             {% for origin in item.origins %}
                 <div>
-                    {{ origin.origin }}
-                    {{ origin.originId }}
+                    {{ origin | origin_badge }}
                 </div>
             {% endfor %}
+        </div>
+        <div class="card-footer">
+            <div class="float-right">
+                <a href="{{ item.link | default(item.guid) }}" target="_blank" class="btn btn-outline-primary">
+                    Check article
+                </a>
+            </div>
+            <div class="text-danger"></div>
         </div>
     </div>
 {% endfor %}

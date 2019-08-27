@@ -67,9 +67,17 @@ class Feed implements OriginInterface
     /**
      * @return string
      */
+    public function __toString()
+    {
+        return $this->title;
+    }
+
+    /**
+     * @return string
+     */
     public function getId(): string
     {
-        return  $this->id;
+        return $this->id;
     }
 
     /**

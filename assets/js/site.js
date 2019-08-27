@@ -12,5 +12,6 @@ require('../scss/site.scss');
 const $ = require('jquery');
 require('popper.js');
 require('bootstrap');
+require('./../../public/bundles/disjfamedia/js/media');
 
 console.log('Hello Webpack Encore! Edit me in assets/js/app.js');

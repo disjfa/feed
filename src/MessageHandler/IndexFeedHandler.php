@@ -4,6 +4,7 @@ namespace App\MessageHandler;
 
 use App\Entity\Item;
 use App\Message\IndexFeed;
+use App\Message\ItemWasCreated;
 use App\Repository\FeedRepository;
 use App\Repository\ItemRepository;
 use App\Services\OriginManager;
@@ -15,6 +16,7 @@ use Exception;
 use Symfony\Component\DomCrawler\Crawler;
 use Symfony\Component\HttpClient\HttpClient;
 use Symfony\Component\Messenger\Handler\MessageHandlerInterface;
+use Symfony\Component\Messenger\MessageBusInterface;
 use Symfony\Contracts\HttpClient\Exception\ClientExceptionInterface;
 use Symfony\Contracts\HttpClient\Exception\RedirectionExceptionInterface;
 use Symfony\Contracts\HttpClient\Exception\ServerExceptionInterface;
@@ -38,6 +40,10 @@ class IndexFeedHandler implements MessageHandlerInterface
      * @var OriginManager
      */
     private $originManager;
+    /**
+     * @var MessageBusInterface
+     */
+    private $messageBus;
 
     /**
      * IndexFeedHandler constructor.
@@ -46,13 +52,20 @@ class IndexFeedHandler implements MessageHandlerInterface
      * @param ItemRepository         $itemRepository
      * @param EntityManagerInterface $entityManager
      * @param OriginManager          $originManager
+     * @param MessageBusInterface    $messageBus
      */
-    public function __construct(FeedRepository $feedRepository, ItemRepository $itemRepository, EntityManagerInterface $entityManager, OriginManager $originManager)
-    {
+    public function __construct(
+        FeedRepository $feedRepository,
+        ItemRepository $itemRepository,
+        EntityManagerInterface $entityManager,
+        OriginManager $originManager,
+        MessageBusInterface $messageBus
+    ) {
         $this->feedRepository = $feedRepository;
         $this->itemRepository = $itemRepository;
         $this->entityManager = $entityManager;
         $this->originManager = $originManager;
+        $this->messageBus = $messageBus;
     }
 
     /**
@@ -92,9 +105,10 @@ class IndexFeedHandler implements MessageHandlerInterface
             $item = $this->itemRepository->findOneBy([
                 'guid' => $guid,
             ]);
-
+            $new = false;
             if (null === $item) {
                 $item = new Item();
+                $new = true;
             }
 
             $item->setPubDate($pubDate);
@@ -108,6 +122,10 @@ class IndexFeedHandler implements MessageHandlerInterface
 
             $this->entityManager->persist($item);
             $this->entityManager->flush();
+
+            if ($new) {
+                $this->messageBus->dispatch(new ItemWasCreated($item->getId()));
+            }
         }
     }
 }

@@ -32,7 +32,7 @@ class ItemRepository extends ServiceEntityRepository
         $qb->where('userOrigins.user = :user');
         $qb->setParameter('user', $user);
         $qb->orderBy('item.pubDate', 'DESC');
-        $qb->setMaxResults(25);
+        $qb->setMaxResults(15);
 
         return $qb->getQuery()->getResult();
     }

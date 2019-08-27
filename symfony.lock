@@ -5,6 +5,9 @@
     "composer/xdebug-handler": {
         "version": "1.3.3"
     },
+    "disjfa/media-bundle": {
+        "version": "dev-master"
+    },
     "disjfa/pwa-bundle": {
         "version": "0.1.0"
     },

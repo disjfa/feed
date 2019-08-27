@@ -2,3 +2,15 @@
 liip_imagine:
     # valid drivers options include "gd" or "gmagick" or "imagick"
     driver: "gd"
+    filter_sets:
+        medium:
+            quality: 75
+            filters:
+                thumbnail:
+                    size: [640, 360]
+                    mode: outbound
+                    allow_upscale: true
+                background:
+                    size: [640, 360]
+                    position: center
+                    color: '#aaa'

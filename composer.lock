@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "c316c1d1f425732dca0892276b7146c2",
+    "content-hash": "6f31dd5e06d619351ee8d2695fd31e6d",
     "packages": [
         {
             "name": "composer/semver",
@@ -111,6 +111,48 @@
                 "performance"
             ],
             "time": "2019-05-27T17:52:04+00:00"
+        },
+        {
+            "name": "disjfa/media-bundle",
+            "version": "dev-master",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/disjfa/media-bundle.git",
+                "reference": "a8606b76371ce19078461c9ae6525c6ce063ef28"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/disjfa/media-bundle/zipball/a8606b76371ce19078461c9ae6525c6ce063ef28",
+                "reference": "a8606b76371ce19078461c9ae6525c6ce063ef28",
+                "shasum": ""
+            },
+            "require": {
+                "sensio/framework-extra-bundle": "^5.1",
+                "symfony/orm-pack": "^1.0"
+            },
+            "type": "symfony-bundle",
+            "autoload": {
+                "psr-4": {
+                    "Disjfa\\MediaBundle\\": ""
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "disjfa",
+                    "email": "disjfa@disjfa.nl"
+                }
+            ],
+            "description": "Media bundle for symfony, can also be use in glynn-admin-symfony",
+            "keywords": [
+                "files",
+                "media",
+                "upload"
+            ],
+            "time": "2019-04-10T20:25:03+00:00"
         },
         {
             "name": "disjfa/pwa-bundle",
@@ -7624,7 +7666,9 @@
     ],
     "aliases": [],
     "minimum-stability": "stable",
-    "stability-flags": [],
+    "stability-flags": {
+        "disjfa/media-bundle": 20
+    },
     "prefer-stable": false,
     "prefer-lowest": false,
     "platform": {

@@ -6,6 +6,7 @@ use DateTime;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 use Exception;
+use GuzzleHttp\Psr7\Uri;
 use Ramsey\Uuid\Uuid;
 
 /**
@@ -39,6 +40,11 @@ class Item
      * @ORM\Column(type="text", nullable=true)
      */
     private $description;
+    /**
+     * @var string|null
+     * @ORM\Column(type="text", nullable=true)
+     */
+    private $imageUrl;
     /**
      * @var DateTime|null
      * @ORM\Column(type="datetime", nullable=true)
@@ -180,5 +186,28 @@ class Item
         if ($this->origins->contains($itemOrigin)) {
             $this->origins->removeElement($itemOrigin);
         }
+    }
+
+    /**
+     * @return string|null
+     */
+    public function getImageUrl(): ?string
+    {
+        return $this->imageUrl;
+    }
+
+    /**
+     * @param string|null $imageUrl
+     */
+    public function setImageUrl(?string $imageUrl): void
+    {
+        $this->imageUrl = $imageUrl;
+    }
+
+    public function getImagePath()
+    {
+        $uri = new Uri($this->imageUrl);
+
+        return $uri->getPath();
     }
 }

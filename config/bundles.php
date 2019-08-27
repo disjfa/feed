@@ -15,6 +15,7 @@ return [
     Liip\ImagineBundle\LiipImagineBundle::class => ['all' => true],
     PhpMob\SettingsBundle\PhpMobSettingsBundle::class => ['all' => true],
     Disjfa\PwaBundle\DisjfaPwaBundle::class => ['all' => true],
+    Disjfa\MediaBundle\DisjfaMediaBundle::class => ['all' => true],
     Symfony\Bundle\WebProfilerBundle\WebProfilerBundle::class => ['dev' => true, 'test' => true],
     Ornicar\GravatarBundle\OrnicarGravatarBundle::class => ['all' => true],
     Sensio\Bundle\FrameworkExtraBundle\SensioFrameworkExtraBundle::class => ['all' => true],
