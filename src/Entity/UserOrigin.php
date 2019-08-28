@@ -21,7 +21,6 @@ class UserOrigin
      * @ORM\Column(type="string")
      */
     private $id;
-
     /**
      * @var User
      * @ORM\ManyToOne(targetEntity="User", inversedBy="userOrigins")

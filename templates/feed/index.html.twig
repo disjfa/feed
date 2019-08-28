@@ -1,8 +1,24 @@
 {% extends 'base.html.twig' %}
 
 {% block main %}
-    <div class="container">
-        <h1>Feeds</h1>
+    <div class="container py-3">
+        <nav aria-label="breadcrumb">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item">
+                    <a href="{{ path('home_index') }}" aria-label="Home">
+                        <i class="fad fa-home"></i>
+                    </a>
+                </li>
+                <li class="breadcrumb-item active">
+                    Feeds
+                </li>
+            </ol>
+        </nav>
+        <h1>
+            <i class="fad fa-rss"></i>
+            Feeds
+        </h1>
+        <hr>
         {% if is_granted('ROLE_ADMIN') %}
             <div class="pb-3">
                 <a href="{{ path('feed_create') }}" class="btn btn-outline-primary">
@@ -11,26 +27,27 @@
                 </a>
             </div>
         {% endif %}
-        <table class="table">
-            <thead>
-            <tr>
-                <th>Name</th>
-                <th>Url</th>
-            </tr>
-            </thead>
-            <tbody>
-            {% for feed in feeds %}
-                <tr>
-                    <td>
-                        <a href="{{ path('feed_show', {'feed': feed.id}) }}">
-                            <i class="fad fa-rss"></i>
-                            {{ feed.title }}
-                        </a>
-                    </td>
-                    <td>{{ feed.baseUrl }}</td>
-                </tr>
-            {% endfor %}
-            </tbody>
-        </table>
+        {% for feed in feeds %}
+            <div class="py-3 border-bottom">
+                <h4>
+                    <a href="{{ path('feed_show', {'feed': feed.id}) }}">
+                        <i class="fad fa-rss"></i>
+                        {{ feed.title }}
+                    </a>
+                </h4>
+                <p>{{ feed.description }}</p>
+                {% if following(app.user, feed) %}
+                    <a href="{{ path('origin_unfollow', {'originId': feed.id}) }}" class="btn btn-primary">
+                        <i class="fad fa-check"></i>
+                        following
+                    </a>
+                {% else %}
+                    <a href="{{ path('origin_follow', {'originId': feed.id}) }}" class="btn btn-outline-primary">
+                        <i class="fad fa-paper-plane"></i>
+                        follow
+                    </a>
+                {% endif %}
+            </div>
+        {% endfor %}
     </div>
 {% endblock %}

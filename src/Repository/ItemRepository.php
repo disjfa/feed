@@ -6,6 +6,8 @@ use App\Entity\Item;
 use App\Entity\Origin;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Common\Persistence\ManagerRegistry;
+use Knp\Component\Pager\Pagination\PaginationInterface;
+use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
 
 /**
@@ -17,14 +19,27 @@ use Symfony\Component\Security\Core\User\UserInterface;
 class ItemRepository extends ServiceEntityRepository
 {
     /**
-     * @param ManagerRegistry $registry
+     * @var PaginatorInterface
      */
-    public function __construct(ManagerRegistry $registry)
+    private $paginator;
+
+    /**
+     * @param ManagerRegistry    $registry
+     * @param PaginatorInterface $paginator
+     */
+    public function __construct(ManagerRegistry $registry, PaginatorInterface $paginator)
     {
         parent::__construct($registry, Item::class);
+        $this->paginator = $paginator;
     }
 
-    public function findFollowing(UserInterface $user)
+    /**
+     * @param UserInterface $user
+     * @param int           $page
+     *
+     * @return PaginationInterface|Item[]
+     */
+    public function findFollowing(UserInterface $user, int $page = 1)
     {
         $qb = $this->createQueryBuilder('item');
         $qb->join('item.origins', 'origin');
@@ -32,25 +47,24 @@ class ItemRepository extends ServiceEntityRepository
         $qb->where('userOrigins.user = :user');
         $qb->setParameter('user', $user);
         $qb->orderBy('item.pubDate', 'DESC');
-        $qb->setMaxResults(15);
 
-        return $qb->getQuery()->getResult();
+        return $this->paginator->paginate($qb, $page, 15);
     }
 
     /**
      * @param Origin $origin
+     * @param int    $page
      *
-     * @return Item[]
+     * @return PaginationInterface|Item[]
      */
-    public function findByOrigin(Origin $origin)
+    public function findByOrigin(Origin $origin, int $page = 1)
     {
         $qb = $this->createQueryBuilder('item');
         $qb->join('item.origins', 'origin');
         $qb->where('origin = :origin');
         $qb->setParameter('origin', $origin);
         $qb->orderBy('item.pubDate', 'DESC');
-        $qb->setMaxResults(25);
 
-        return $qb->getQuery()->getResult();
+        return $this->paginator->paginate($qb, $page, 15);
     }
 }

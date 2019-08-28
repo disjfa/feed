@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\Origin;
+use App\Repository\OriginRepository;
 use App\Services\UserOriginManager;
 use Doctrine\ORM\NonUniqueResultException;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -13,21 +14,42 @@ use Symfony\Component\Routing\Annotation\Route;
 class OriginController extends AbstractController
 {
     /**
-     * @Route("/origin/{origin}/follow", name="origin_follow")
+     * @var UserOriginManager
+     */
+    private $userOriginManager;
+    /**
+     * @var OriginRepository
+     */
+    private $originRepository;
+
+    /**
+     * OriginController constructor.
      *
-     * @param Origin            $origin
-     * @param Request           $request
      * @param UserOriginManager $userOriginManager
+     * @param OriginRepository  $originRepository
+     */
+    public function __construct(UserOriginManager $userOriginManager, OriginRepository $originRepository)
+    {
+        $this->userOriginManager = $userOriginManager;
+        $this->originRepository = $originRepository;
+    }
+
+    /**
+     * @Route("/origin/{originId}/follow", name="origin_follow")
+     *
+     * @param string  $originId
+     * @param Request $request
      *
      * @return Response
      *
      * @throws NonUniqueResultException
      */
-    public function follow(Origin $origin, Request $request, UserOriginManager $userOriginManager)
+    public function follow(string $originId, Request $request)
     {
         $this->denyAccessUnlessGranted('ROLE_USER');
         $user = $this->getUser();
-        $userOriginManager->follow($user, $origin);
+        $origin = $this->originRepository->findOneByOriginId($originId);
+        $this->userOriginManager->follow($user, $origin);
 
         $this->addFlash('success', 'Following feed!');
 
@@ -39,21 +61,21 @@ class OriginController extends AbstractController
     }
 
     /**
-     * @Route("/origin/{origin}/unfollow", name="origin_unfollow")
+     * @Route("/origin/{originId}/unfollow", name="origin_unfollow")
      *
-     * @param Origin            $origin
-     * @param Request           $request
-     * @param UserOriginManager $userOriginManager
+     * @param string  $originId
+     * @param Request $request
      *
      * @return Response
      *
      * @throws NonUniqueResultException
      */
-    public function unfollow(Origin $origin, Request $request, UserOriginManager $userOriginManager)
+    public function unfollow(string $originId, Request $request)
     {
         $this->denyAccessUnlessGranted('ROLE_USER');
         $user = $this->getUser();
-        $userOriginManager->unfollow($user, $origin);
+        $origin = $this->originRepository->findOneByOriginId($originId);
+        $this->userOriginManager->unfollow($user, $origin);
 
         $this->addFlash('success', 'Unfollowed feed!');
 

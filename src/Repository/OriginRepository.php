@@ -5,8 +5,10 @@ namespace App\Repository;
 use App\Entity\Origin;
 use App\Entity\OriginInterface;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\Common\Persistence\ManagerRegistry;
 use Doctrine\ORM\NonUniqueResultException;
+use Symfony\Component\Security\Core\User\UserInterface;
 
 /**
  * @method Origin|null find($id, $lockMode = null, $lockVersion = null)
@@ -22,6 +24,42 @@ class OriginRepository extends ServiceEntityRepository
     public function __construct(ManagerRegistry $registry)
     {
         parent::__construct($registry, Origin::class);
+    }
+
+    /**
+     * @param UserInterface $user
+     * @param string        $origin
+     *
+     * @return Origin[]|Collection
+     */
+    public function findByUser(UserInterface $user, string $origin = null)
+    {
+        $qb = $this->createQueryBuilder('origin');
+        $qb->join('origin.userOrigins', 'userOrigins');
+        $qb->where('userOrigins.user = :user');
+        $qb->setParameter('user', $user);
+        if ($origin) {
+            $qb->andWhere('origin.origin = :origin');
+            $qb->setParameter('origin', $origin);
+        }
+
+        return $qb->getQuery()->getResult();
+    }
+
+    /**
+     * @param string $originId
+     *
+     * @return mixed
+     *
+     * @throws NonUniqueResultException
+     */
+    public function findOneByOriginId(string $originId)
+    {
+        $qb = $this->createQueryBuilder('origin');
+        $qb->where('origin.originId = :originId');
+        $qb->setParameter('originId', $originId);
+
+        return $qb->getQuery()->getOneOrNullResult();
     }
 
     /**

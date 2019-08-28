@@ -4,6 +4,7 @@ namespace App\Twig;
 
 use App\Entity\Feed;
 use App\Entity\Origin;
+use App\Services\OriginManager;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\Routing\RouterInterface;
 use Twig\Extension\AbstractExtension;
@@ -19,12 +20,17 @@ class OriginExtension extends AbstractExtension
      * @var RouterInterface
      */
     private $router;
+    /**
+     * @var OriginManager
+     */
+    private $originManager;
 
     /**
      * OriginExtension constructor.
      *
      * @param EntityManagerInterface $entityManager
      * @param RouterInterface        $router
+     * @param OriginManager          $originManager
      */
     public function __construct(EntityManagerInterface $entityManager, RouterInterface $router)
     {
@@ -50,7 +56,7 @@ class OriginExtension extends AbstractExtension
      *
      * @return string
      */
-    public function getOriginLink(Origin $origin)
+    public function getOriginLink(Origin $origin, string $class = 'badge badge-dark')
     {
         $entity = $this->entityManager->getRepository($origin->getOrigin())->find($origin->getOriginId());
         if (null === $entity) {
@@ -64,6 +70,6 @@ class OriginExtension extends AbstractExtension
             ]);
         }
 
-        return '<a href="'.$url.'" class="badge badge-dark">'.(string) $entity.'</a>';
+        return '<a href="'.$url.'" class="'.$class.'">'.(string) $entity.'</a>';
     }
 }

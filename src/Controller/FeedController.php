@@ -119,17 +119,18 @@ class FeedController extends AbstractController
      *
      * @param Feed          $feed
      * @param OriginManager $originManager
+     * @param Request       $request
      *
      * @return Response
      *
      * @throws NonUniqueResultExceptionAlias
      */
-    public function show(Feed $feed, OriginManager $originManager)
+    public function show(Feed $feed, OriginManager $originManager, Request $request)
     {
         $this->denyAccessUnlessGranted('ROLE_USER');
 
         $origin = $originManager->getOriginByOriginInterface($feed);
-        $items = $this->getItemRpository()->findByOrigin($origin);
+        $items = $this->getItemRpository()->findByOrigin($origin, $request->query->getInt('page', 1));
 
         return $this->render('feed/show.html.twig', [
             'feed' => $feed,

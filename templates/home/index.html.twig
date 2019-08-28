@@ -3,15 +3,48 @@
 {% block title %}Hello!{% endblock %}
 
 {% block main %}
-    <div class="container">
-        <h1>Feeds</h1>
+    <div class="container py-3">
+        <h1>
+            <i class="fad fa-home"></i>
+            Your feed
+        </h1>
         <div class="row">
             <div class="col-lg-7">
                 {% include 'item/list_items.html.twig' %}
             </div>
             <div class="col-lg-5">
-                <div class="position-sticky" style="top: 70px;">
-                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Architecto dolores eos esse est, id inventore laboriosam molestias nostrum quae qui sit tenetur velit voluptatem. Architecto consequatur dolore error itaque voluptas.</p>
+                <div>
+                    <h4>
+                        <i class="fad fa-rss"></i>
+                        Your feeds
+                    </h4>
+                    <div class="bg-light p-2">
+                        {% for origin in origins %}
+                            <div class="py-1">
+                                {{ origin | origin_badge('') }}
+                            </div>
+                        {% endfor %}
+                        <div class="py-1">
+                            <a href="{{ path('feed_index') }}">
+                                <i class="fad fa-angle-double-right"></i>
+                                More feeds
+                            </a>
+                        </div>
+                    </div>
+                    <br>
+                    <h4>
+                        <i class="fad fa-rss"></i>
+                        Quick list
+                    </h4>
+                    <div class="bg-light p-2">
+                        {% for item in items %}
+                            <div class="py-1">
+                                <a href="#" class="js-scroll-into-view" data-target="#item-{{ item.id }}">
+                                    {{ item.title }}
+                                </a>
+                            </div>
+                        {% endfor %}
+                    </div>
                 </div>
             </div>
         </div>

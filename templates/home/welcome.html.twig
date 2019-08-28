@@ -1,0 +1,20 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}
+    Welcome!
+{% endblock %}
+
+{% block main %}
+    <div class="container py-3">
+        <h1>Welcome!</h1>
+        <p class="lead">
+            Oh hello there. Looks like you are new here. We use feeds to get some news on the page. But we only show
+            feeds you like. You can check them out on the feed page. Done forget to follow some.
+        </p>
+        <a href="{{ path('feed_index') }}" class="btn btn-outline-primary">
+            <i class="fad fa-rss"></i>
+            Go and check out some feeds!
+        </a>
+    </div>
+{% endblock %}
+

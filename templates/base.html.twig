@@ -5,12 +5,12 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
-    <title>{% block page_title %}{{ 'site.meta.title' | trans }}{% endblock %}</title>
+    <title>{% block page_title %}{{ settings_get('website.name') | trans }}{% endblock %}</title>
     {% block head_favicon %}
         {{ include('@DisjfaPwa/meta.html.twig') }}
     {% endblock %}
     {% block meta %}
-        <meta name="description" content="{% block meta_description %}{% endblock %}">
+        <meta name="description" content="{% block meta_description %}{{ settings_get('website.description') }}{% endblock %}">
         {% block meta_og %}
         {% endblock %}
         {% block meta_twitter %}
@@ -22,16 +22,15 @@
     {% endblock %}
 </head>
 {% block body %}
-    <body>
+    <body id="top">
     {% block wrapper %}
         {% block header %}
-            <div class="py-4"><br></div>
-            <nav class="navbar navbar-expand-lg fixed-top {% block navbar_nav_class %}navbar-light bg-light{% endblock %}">
+            <nav class="navbar navbar-expand-lg {% block navbar_nav_class %}navbar-light bg-light{% endblock %}">
                 <div class="container">
                     <a class="navbar-brand" href="{{ path('home_index') }}">
                         {% block navbar_brand %}
                             <i class="fad fa-rss"></i>
-                            {{ 'site.navbar.title' | trans }}
+                            {{ settings_get('website.name') }}
                         {% endblock %}
                     </a>
                     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#main-navbar" aria-controls="main-navbar" aria-expanded="false" aria-label="{{ 'site.navbar.toggle_navigation' | trans }}">
@@ -49,10 +48,6 @@
                                                 {{ 'site.navbar.admin' | trans }}
                                             </a>
                                             <div class="dropdown-menu" aria-labelledby="nav-admin">
-                                                <a href="{{ path('feed_index') }}" class="dropdown-item">
-                                                    <i class="fad fa-rss"></i>
-                                                    {{ 'site.navbar.feeds' | trans }}
-                                                </a>
                                                 <a href="{{ path('phpmob_settings_section_update', {'section':'pwa'}) }}" class="dropdown-item">
                                                     <i class="fad fa-cogs"></i>
                                                     {{ 'site.navbar.settings' | trans }}
@@ -60,6 +55,12 @@
                                             </div>
                                         </li>
                                     {% endif %}
+                                    <li class="nav-item">
+                                        <a href="{{ path('feed_index') }}" class="nav-link">
+                                            <i class="fad fa-rss"></i>
+                                            {{ 'site.navbar.feeds' | trans }}
+                                        </a>
+                                    </li>
                                     <li class="nav-item">
                                         <a href="{{ path('fos_user_profile_show') }}" class="nav-link">
                                             <i class="fad fa-user"></i>
@@ -104,7 +105,9 @@
             {% block content_header %}
             {% endblock %}
             {% block content %}
-                {% block main %}{% endblock %}
+                <div>
+                    {% block main %}{% endblock %}
+                </div>
             {% endblock %}
             {% block content_footer %}
             {% endblock %}

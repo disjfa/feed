@@ -1,31 +1,69 @@
 {% extends 'base.html.twig' %}
 
 {% block main %}
-    <div class="container">
+    <div class="container py-3">
+        <nav aria-label="breadcrumb">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item">
+                    <a href="{{ path('home_index') }}" aria-label="Home">
+                        <i class="fad fa-home"></i>
+                    </a>
+                </li>
+                <li class="breadcrumb-item">
+                    <a href="{{ path('feed_index') }}">
+                        Feeds
+                    </a>
+                </li>
+                <li class="breadcrumb-item active">
+                    {{ feed.title }}
+                </li>
+            </ol>
+        </nav>
         <h1>{{ feed.title }}</h1>
         <div class="row">
             <div class="col-lg-7">
                 {% include 'item/list_items.html.twig' %}
             </div>
             <div class="col-lg-5">
+                <h4>About this feed</h4>
                 <p>
                     {{ feed.description }}
                 </p>
-                {% if is_granted('ROLE_ADMIN') %}
-                    <a href="{{ path('feed_handle', {'feed': feed.id}) }}" class="btn btn-outline-primary">
-                        <i class="fad fa-recycle"></i>
-                        handle
-                    </a>
-                {% endif %}
-                {% if following(app.user, origin) %}
-                    <a href="{{ path('origin_unfollow', {'origin': origin.id}) }}" class="btn btn-primary">
-                        following
-                    </a>
-                {% else %}
-                    <a href="{{ path('origin_follow', {'origin': origin.id}) }}" class="btn btn-outline-primary">
-                        follow
-                    </a>
-                {% endif %}
+                <div>
+                    <div class="btn-group">
+                        {% if following(app.user, feed) %}
+                            <a href="{{ path('origin_unfollow', {'originId': feed.id}) }}" class="btn btn-primary">
+                                <i class="fad fa-check"></i>
+                                following
+                            </a>
+                        {% else %}
+                            <a href="{{ path('origin_follow', {'originId': feed.id}) }}" class="btn btn-outline-primary">
+                                <i class="fad fa-paper-plane"></i>
+                                follow
+                            </a>
+                        {% endif %}
+                        {% if is_granted('ROLE_ADMIN') %}
+                            <a href="{{ path('feed_handle', {'feed': feed.id}) }}" class="btn btn-outline-primary">
+                                <i class="fad fa-recycle"></i>
+                                handle
+                            </a>
+                        {% endif %}
+                    </div>
+                </div>
+                <br>
+                <h4>
+                    <i class="fad fa-rss"></i>
+                    Quick list
+                </h4>
+                <div class="bg-light p-2">
+                    {% for item in items %}
+                        <div class="py-1">
+                            <a href="#" class="js-scroll-into-view" data-target="#item-{{ item.id }}">
+                                {{ item.title }}
+                            </a>
+                        </div>
+                    {% endfor %}
+                </div>
             </div>
         </div>
     </div>

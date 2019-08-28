@@ -10,6 +10,7 @@
         "disjfa/pwa-bundle": "^0.1.0",
         "friendsofphp/php-cs-fixer": "^2.15",
         "friendsofsymfony/user-bundle": "^2.1",
+        "knplabs/knp-paginator-bundle": "^4.0",
         "knpuniversity/oauth2-client-bundle": "^1.28",
         "league/oauth2-facebook": "^2.0",
         "mcfedr/uuid-extra-bundle": "^3.1",
