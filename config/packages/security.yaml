@@ -1,14 +1,20 @@
 security:
-    encoders:
-        FOS\UserBundle\Model\UserInterface: bcrypt
+    access_denied_url: home_hello
 
     role_hierarchy:
         ROLE_ADMIN:       ROLE_USER
-        ROLE_SUPER_ADMIN: ROLE_ADMIN
+        ROLE_SUPER_ADMIN: [ROLE_ADMIN, ROLE_ALLOWED_TO_SWITCH]
+
+    encoders:
+        App\Entity\User:
+            algorithm: auto
 
     providers:
-        fos_userbundle:
-            id: fos_user.user_provider.username_email
+        # used to reload user from session & other features (e.g. switch_user)
+        app_user_provider:
+            entity:
+                class: App\Entity\User
+                property: email
 
     firewalls:
         dev:
@@ -16,17 +22,16 @@ security:
             security: false
         main:
             pattern: ^/
+            logout: true
+            anonymous: true
             form_login:
-                provider: fos_userbundle
-            logout:       true
-            anonymous:    true
+                login_path: home_hello
             guard:
                 authenticators:
                     - App\Security\Authenticator\FacebookAuthenticator
 
     access_control:
-        - { path: ^/login$, role: IS_AUTHENTICATED_ANONYMOUSLY }
-        - { path: ^/register, role: IS_AUTHENTICATED_ANONYMOUSLY }
-        - { path: ^/resetting, role: IS_AUTHENTICATED_ANONYMOUSLY }
         - { path: ^/settings/, role: ROLE_ADMIN }
         - { path: ^/admin/, role: ROLE_ADMIN }
+        - { path: ^/hello, role: IS_AUTHENTICATED_ANONYMOUSLY }
+

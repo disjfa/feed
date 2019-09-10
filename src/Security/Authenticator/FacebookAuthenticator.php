@@ -3,7 +3,8 @@
 namespace App\Security\Authenticator;
 
 use App\Entity\User;
-use FOS\UserBundle\Model\UserManagerInterface;
+use App\Repository\UserRepository;
+use Doctrine\ORM\EntityManagerInterface;
 use KnpU\OAuth2ClientBundle\Client\ClientRegistry;
 use KnpU\OAuth2ClientBundle\Client\OAuth2Client;
 use KnpU\OAuth2ClientBundle\Client\Provider\FacebookClient;
@@ -33,22 +34,28 @@ class FacebookAuthenticator extends SocialAuthenticator
      */
     private $router;
     /**
-     * @var UserManagerInterface
+     * @var UserRepository
      */
-    private $userManager;
+    private $userRepository;
+    /**
+     * @var EntityManagerInterface
+     */
+    private $entityManager;
 
     /**
      * FacebookAuthenticator constructor.
      *
-     * @param ClientRegistry       $clientRegistry
-     * @param RouterInterface      $router
-     * @param UserManagerInterface $userManager
+     * @param ClientRegistry         $clientRegistry
+     * @param RouterInterface        $router
+     * @param UserRepository         $userRepository
+     * @param EntityManagerInterface $entityManager
      */
-    public function __construct(ClientRegistry $clientRegistry, RouterInterface $router, UserManagerInterface $userManager)
+    public function __construct(ClientRegistry $clientRegistry, RouterInterface $router, UserRepository $userRepository, EntityManagerInterface $entityManager)
     {
         $this->clientRegistry = $clientRegistry;
         $this->router = $router;
-        $this->userManager = $userManager;
+        $this->userRepository = $userRepository;
+        $this->entityManager = $entityManager;
     }
 
     /**
@@ -81,34 +88,32 @@ class FacebookAuthenticator extends SocialAuthenticator
     {
         /** @var FacebookUser $facebookUser */
         $facebookUser = $this->getFacebookClient()->fetchUserFromToken($credentials);
-        $existingUser = $this->userManager->findUserBy([
+        $existingUser = $this->userRepository->findOneBy([
             'facebookId' => $facebookUser->getId(),
         ]);
 
         /** @var User $existingUser */
-        if ($existingUser) {
+        if ($existingUser instanceof User) {
             $existingUser->setFacebookAccessToken($credentials);
 
             return $existingUser;
         }
 
         /** @var User $user */
-        $user = $this->userManager->findUserBy([
+        $user = $this->userRepository->findOneBy([
             'email' => $facebookUser->getEmail(),
         ]);
 
         if (null === $user) {
-            $user = $this->userManager->createUser();
-            $user->setEnabled(true);
+            $user = new User();
             $user->setName($facebookUser->getName());
             $user->setEmail($facebookUser->getEmail());
         }
 
-        $user->setPassword(uniqid());
-        $user->setUsername($facebookUser->getEmail());
         $user->setFacebookId($facebookUser->getId());
         $user->setFacebookAccessToken($credentials);
-        $this->userManager->updateUser($user);
+        $this->entityManager->persist($user);
+        $this->entityManager->flush();
 
         return $user;
     }

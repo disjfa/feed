@@ -7,7 +7,7 @@ use App\Entity\UserOrigin;
 use App\Repository\UserOriginRepository;
 use App\Services\OriginManager;
 use Doctrine\ORM\NonUniqueResultException;
-use FOS\UserBundle\Model\UserInterface;
+use Symfony\Component\Security\Core\User\UserInterface;
 use Twig\Extension\AbstractExtension;
 use Twig\TwigFunction;
 

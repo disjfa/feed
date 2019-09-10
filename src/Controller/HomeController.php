@@ -36,4 +36,12 @@ class HomeController extends AbstractController
             'origins' => $origins,
         ]);
     }
+
+    /**
+     * @Route("/hello", name="home_hello")
+     */
+    public function hello()
+    {
+        return $this->render('home/hello.html.twig');
+    }
 }

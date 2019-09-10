@@ -105,9 +105,6 @@
             ".php_cs.dist"
         ]
     },
-    "friendsofsymfony/user-bundle": {
-        "version": "v2.1.2"
-    },
     "guzzlehttp/guzzle": {
         "version": "6.3.3"
     },
@@ -439,16 +436,16 @@
         ]
     },
     "symfony/security-core": {
-        "version": "v4.3.3"
+        "version": "v4.3.4"
     },
     "symfony/security-csrf": {
-        "version": "v4.3.3"
+        "version": "v4.3.4"
     },
     "symfony/security-guard": {
-        "version": "v4.3.3"
+        "version": "v4.3.4"
     },
     "symfony/security-http": {
-        "version": "v4.3.3"
+        "version": "v4.3.4"
     },
     "symfony/service-contracts": {
         "version": "v1.1.5"

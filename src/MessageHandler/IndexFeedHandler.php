@@ -98,6 +98,7 @@ class IndexFeedHandler implements MessageHandlerInterface
             $title = $aa->filter('title')->text();
             $description = $aa->filter('description')->text();
             $guid = $aa->filter('guid')->text();
+
             $link = null;
             if ($aa->filter('link')->count()) {
                 $link = $aa->filter('link')->text();
