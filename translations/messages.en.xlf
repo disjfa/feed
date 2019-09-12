@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xliff xmlns="urn:oasis:names:tc:xliff:document:1.2" version="1.2">
+  <file source-language="en" target-language="en" datatype="plaintext" original="file.ext">
+    <header>
+      <tool tool-id="symfony" tool-name="Symfony"/>
+    </header>
+    <body>
+      <trans-unit id="0JY2lxk" resname="site.navbar.toggle_navigation">
+        <source>site.navbar.toggle_navigation</source>
+        <target>Toggle navigation</target>
+      </trans-unit>
+      <trans-unit id="yRn5L9c" resname="site.navbar.admin">
+        <source>site.navbar.admin</source>
+        <target>Admin</target>
+      </trans-unit>
+      <trans-unit id="xPVU1ip" resname="site.navbar.settings">
+        <source>site.navbar.settings</source>
+        <target>Settings</target>
+      </trans-unit>
+      <trans-unit id="CBR6zDf" resname="site.navbar.feeds">
+        <source>site.navbar.feeds</source>
+        <target>Feeds</target>
+      </trans-unit>
+      <trans-unit id="qQ0clFV" resname="site.navbar.logout">
+        <source>site.navbar.logout</source>
+        <target>Logout</target>
+      </trans-unit>
+      <trans-unit id="HvyHuCV" resname="site.navbar.login">
+        <source>site.navbar.login</source>
+        <target>Login</target>
+      </trans-unit>
+    </body>
+  </file>
+</xliff>

@@ -22,10 +22,11 @@ security:
             security: false
         main:
             pattern: ^/
-            logout: true
             anonymous: true
             form_login:
                 login_path: home_hello
+            logout:
+                path: user_logout
             guard:
                 authenticators:
                     - App\Security\Authenticator\FacebookAuthenticator
