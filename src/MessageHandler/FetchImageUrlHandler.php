@@ -10,6 +10,8 @@ use Doctrine\ORM\EntityManagerInterface;
 use Exception;
 use Symfony\Component\DomCrawler\Crawler;
 use Symfony\Component\HttpClient\Exception\ClientException;
+use Symfony\Component\HttpClient\Exception\RedirectionException;
+use Symfony\Component\HttpClient\Exception\TransportException;
 use Symfony\Component\HttpClient\HttpClient;
 use Symfony\Component\HttpFoundation\File\File;
 use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
@@ -38,8 +40,8 @@ class FetchImageUrlHandler implements MessageHandlerInterface
     /**
      * FetchImageUrlHandler constructor.
      *
-     * @param ItemRepository         $itemRepository
-     * @param UploadService          $uploadService
+     * @param ItemRepository $itemRepository
+     * @param UploadService $uploadService
      * @param EntityManagerInterface $entityManager
      */
     public function __construct(ItemRepository $itemRepository, UploadService $uploadService, EntityManagerInterface $entityManager)
@@ -80,7 +82,14 @@ class FetchImageUrlHandler implements MessageHandlerInterface
         } catch (ClientException $exception) {
             // nope
             return false;
+        } catch (TransportException $exception) {
+            // nope
+            return false;
+        } catch (RedirectionException $exception) {
+            // nope
+            return false;
         }
+        
         if (!$image) {
             return true;
         }
@@ -91,6 +100,12 @@ class FetchImageUrlHandler implements MessageHandlerInterface
             $response = $client->request('GET', $image);
             $headers = $response->getHeaders();
         } catch (ClientException $exception) {
+            // nope
+            return false;
+        } catch (TransportException $exception) {
+            // nope
+            return false;
+        } catch (RedirectionException $exception) {
             // nope
             return false;
         }

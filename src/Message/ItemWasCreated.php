@@ -9,6 +9,9 @@ class ItemWasCreated
      */
     private $itemId;
 
+    /**
+     * @param string $itemId
+     */
     public function __construct(string $itemId)
     {
         $this->itemId = $itemId;

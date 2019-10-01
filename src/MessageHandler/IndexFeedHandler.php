@@ -106,6 +106,7 @@ class IndexFeedHandler implements MessageHandlerInterface
             $item = $this->itemRepository->findOneBy([
                 'guid' => $guid,
             ]);
+
             $new = false;
             if (null === $item) {
                 $item = new Item();
