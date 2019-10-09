@@ -74,8 +74,7 @@ class FetchImageUrlHandler implements MessageHandlerInterface
         if ($item->getLink()) {
             $url = $item->getLink();
         }
-        dump($url);
-        exit;
+
         try {
             $client = HttpClient::create();
             $response = $client->request('GET', $url);
