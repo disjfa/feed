@@ -3,11 +3,8 @@
 namespace App\Command;
 
 use App\Entity\Item;
-use App\Message\IndexFeed;
 use App\Message\ItemWasCreated;
-use App\Repository\FeedRepository;
 use App\Repository\ItemRepository;
-use DateTime;
 use Doctrine\Common\Collections\Criteria;
 use Doctrine\ORM\EntityManagerInterface;
 use Exception;
@@ -43,9 +40,9 @@ class UpdateImagesCommand extends Command
     /**
      * IndexFeedsCommand constructor.
      *
-     * @param ItemRepository $itemRepository
+     * @param ItemRepository      $itemRepository
      * @param MessageBusInterface $messageBus
-     * @param LoggerInterface $logger
+     * @param LoggerInterface     $logger
      */
     public function __construct(ItemRepository $itemRepository, MessageBusInterface $messageBus, LoggerInterface $logger)
     {
@@ -62,7 +59,7 @@ class UpdateImagesCommand extends Command
     }
 
     /**
-     * @param InputInterface $input
+     * @param InputInterface  $input
      * @param OutputInterface $output
      *
      * @return int|void|null
@@ -76,9 +73,9 @@ class UpdateImagesCommand extends Command
         $criteria->orderBy(['pubDate' => Criteria::DESC]);
         $items = $this->itemRepository->matching($criteria);
 
-        foreach($items as $item) {
-            /** @var Item $item */
-            $this->logger->info('Checking ' . $item->getTitle());
+        foreach ($items as $item) {
+            /* @var Item $item */
+            $this->logger->info('Checking '.$item->getTitle());
 
             $this->messageBus->dispatch(new ItemWasCreated($item->getId()));
         }
