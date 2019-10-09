@@ -3,6 +3,7 @@
 namespace App\MessageHandler;
 
 use App\Entity\Item;
+use App\Entity\Origin;
 use App\Message\IndexFeed;
 use App\Message\ItemWasCreated;
 use App\Repository\FeedRepository;
@@ -11,9 +12,11 @@ use App\Services\OriginManager;
 use DateTime;
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\EntityManagerInterface;
+use Doctrine\ORM\OptimisticLockException;
+use Doctrine\ORM\ORMException;
+use DOMDocument;
 use DOMElement;
 use Exception;
-use Symfony\Component\DomCrawler\Crawler;
 use Symfony\Component\HttpClient\HttpClient;
 use Symfony\Component\Messenger\Handler\MessageHandlerInterface;
 use Symfony\Component\Messenger\MessageBusInterface;
@@ -22,6 +25,9 @@ use Symfony\Contracts\HttpClient\Exception\RedirectionExceptionInterface;
 use Symfony\Contracts\HttpClient\Exception\ServerExceptionInterface;
 use Symfony\Contracts\HttpClient\Exception\TransportExceptionInterface;
 
+/**
+ * Class IndexFeedHandler.
+ */
 class IndexFeedHandler implements MessageHandlerInterface
 {
     /**
@@ -84,50 +90,105 @@ class IndexFeedHandler implements MessageHandlerInterface
         $client = HttpClient::create();
         $response = $client->request('GET', $feed->getBaseUrl());
 
-        $crawler = new Crawler($response->getContent());
-        $items = $crawler->filter('channel item');
-        foreach ($items as $item) {
-            $pubDate = null;
-            foreach ($item->childNodes as $k => $n) {
-                if ($n instanceof DOMElement && 'pubDate' === $n->nodeName) {
-                    $pubDate = new DateTime($n->nodeValue);
-                }
+        $doc = new DOMDocument();
+        $doc->loadXML($response->getContent());
+        $channels = $doc->getElementsByTagName('channel');
+        if (1 !== $channels->count()) {
+            return;
+        }
+
+        $origin = $this->originManager->getOriginByOriginInterface($feed);
+        $channel = $channels->item(0);
+        foreach ($channel->childNodes as $childNode) {
+            /** @var DOMElement $childNode */
+            if ('title' === $childNode->nodeName) {
+                $feed->setTitle(trim($childNode->nodeValue));
             }
-
-            $aa = new Crawler($item);
-            $title = $aa->filter('title')->text();
-            $description = $aa->filter('description')->text();
-            $guid = $aa->filter('guid')->text();
-
-            $link = null;
-            if ($aa->filter('link')->count()) {
-                $link = $aa->filter('link')->text();
+            if ('description' === $childNode->nodeName) {
+                $feed->setDescription(trim($childNode->nodeValue));
             }
-            $item = $this->itemRepository->findOneBy([
-                'guid' => $guid,
-            ]);
-
-            $new = false;
-            if (null === $item) {
-                $item = new Item();
-                $new = true;
+            if ('link' === $childNode->nodeName) {
+                $feed->setLink(trim($childNode->nodeValue));
             }
-
-            $item->setPubDate($pubDate);
-            $item->setTitle($title);
-            $item->setDescription($description);
-            $item->setGuid($guid);
-            $item->setLink($link);
-
-            $origin = $this->originManager->getOriginByOriginInterface($feed);
-            $item->addOrigin($origin);
-
-            $this->entityManager->persist($item);
-            $this->entityManager->flush();
-
-            if ($new) {
-                $this->messageBus->dispatch(new ItemWasCreated($item->getId()));
+            if ('pubDate' === $childNode->nodeName) {
+                $feed->setPubDate(new DateTime($childNode->nodeValue));
+            }
+            if ('lastBuildDate' === $childNode->nodeName) {
+                $feed->setLastBuildDate(new DateTime($childNode->nodeValue));
+            }
+            if ('item' === $childNode->nodeName) {
+                $this->indexItem($childNode, $origin);
             }
         }
+
+        $this->entityManager->persist($feed);
+        $this->entityManager->flush();
+    }
+
+    /**
+     * @param DOMElement $element
+     * @param Origin     $origin
+     *
+     * @return Item|void|null
+     *
+     * @throws Exception
+     */
+    public function getItem(DOMElement $element, Origin $origin)
+    {
+        foreach ($element->childNodes as $childNode) {
+            /** @var DOMElement $childNode */
+            if ('guid' === $childNode->nodeName) {
+                $guid = trim($childNode->textContent);
+                $item = $this->itemRepository->findOneBy([
+                    'guid' => $guid,
+                ]);
+                if (null === $item) {
+                    $item = new Item();
+                    $item->addOrigin($origin);
+                    $item->setGuid($guid);
+                }
+
+                return $item;
+            }
+        }
+
+        return;
+    }
+
+    /**
+     * @param DOMElement $element
+     * @param Origin     $origin
+     *
+     * @throws ORMException
+     * @throws OptimisticLockException
+     * @throws Exception
+     */
+    public function indexItem(DOMElement $element, Origin $origin)
+    {
+        $item = $this->getItem($element, $origin);
+        if (false === $item instanceof Item) {
+            return;
+        }
+
+        foreach ($element->childNodes as $childNode) {
+            /** @var DOMElement $childNode */
+            if ('pubDate' === $childNode->nodeName) {
+                $item->setPubDate(new DateTime($childNode->textContent));
+            }
+            if ('title' === $childNode->nodeName) {
+                $item->setTitle(trim($childNode->textContent));
+            }
+            if ('description' === $childNode->nodeName) {
+                $item->setDescription(trim($childNode->textContent));
+            }
+            if ('link' === $childNode->nodeName) {
+                $item->setLink(trim($childNode->textContent));
+            }
+        }
+
+        $this->entityManager->persist($item);
+        $this->entityManager->flush();
+
+        $this->messageBus->dispatch(new ItemWasCreated($item->getId()));
     }
 }

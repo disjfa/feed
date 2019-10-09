@@ -40,8 +40,8 @@ class FetchImageUrlHandler implements MessageHandlerInterface
     /**
      * FetchImageUrlHandler constructor.
      *
-     * @param ItemRepository $itemRepository
-     * @param UploadService $uploadService
+     * @param ItemRepository         $itemRepository
+     * @param UploadService          $uploadService
      * @param EntityManagerInterface $entityManager
      */
     public function __construct(ItemRepository $itemRepository, UploadService $uploadService, EntityManagerInterface $entityManager)
@@ -74,7 +74,8 @@ class FetchImageUrlHandler implements MessageHandlerInterface
         if ($item->getLink()) {
             $url = $item->getLink();
         }
-
+        dump($url);
+        exit;
         try {
             $client = HttpClient::create();
             $response = $client->request('GET', $url);
@@ -89,7 +90,7 @@ class FetchImageUrlHandler implements MessageHandlerInterface
             // nope
             return false;
         }
-        
+
         if (!$image) {
             return true;
         }
