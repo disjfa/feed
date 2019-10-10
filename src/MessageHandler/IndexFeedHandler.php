@@ -10,6 +10,7 @@ use App\Repository\FeedRepository;
 use App\Repository\ItemRepository;
 use App\Services\OriginManager;
 use DateTime;
+use DateTimeZone;
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\OptimisticLockException;
@@ -173,7 +174,9 @@ class IndexFeedHandler implements MessageHandlerInterface
         foreach ($element->childNodes as $childNode) {
             /** @var DOMElement $childNode */
             if ('pubDate' === $childNode->nodeName) {
-                $item->setPubDate(new DateTime($childNode->textContent));
+                $pubDate = new DateTime($childNode->textContent);
+                $pubDate->setTimezone(new DateTimeZone('UTC'));
+                $item->setPubDate($pubDate);
             }
             if ('title' === $childNode->nodeName) {
                 $item->setTitle(trim($childNode->textContent));

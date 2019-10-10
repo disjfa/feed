@@ -14,6 +14,7 @@ use Symfony\Component\HttpClient\Exception\RedirectionException;
 use Symfony\Component\HttpClient\Exception\TransportException;
 use Symfony\Component\HttpClient\HttpClient;
 use Symfony\Component\HttpFoundation\File\File;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 use Symfony\Component\Messenger\Handler\MessageHandlerInterface;
 use Symfony\Contracts\HttpClient\Exception\ClientExceptionInterface;
@@ -121,8 +122,12 @@ class FetchImageUrlHandler implements MessageHandlerInterface
         fclose($handle);
 
         $file = new File($path);
-
-        $media = $this->uploadService->saveFile($file, basename($image));
+        $request = Request::create($image);
+        $filename = basename($request->getPathInfo());
+        if (strlen($filename) > 255) {
+            $filename = substr($filename, 0, 255);
+        }
+        $media = $this->uploadService->saveFile($file, $filename);
         $item->setImageUrl($media->getUrl());
 
         $this->entityManager->persist($item);
