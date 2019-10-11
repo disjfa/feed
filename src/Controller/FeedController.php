@@ -10,10 +10,11 @@ use App\Services\OriginManager;
 use DateTime;
 use Doctrine\Common\Persistence\ObjectRepository;
 use Doctrine\ORM\NonUniqueResultException as NonUniqueResultExceptionAlias;
+use DOMDocument;
+use DOMElement;
 use Exception;
 use InvalidArgumentException;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\DomCrawler\Crawler;
 use Symfony\Component\Form\Extension\Core\Type\UrlType;
 use Symfony\Component\HttpClient\Exception\ClientException;
 use Symfony\Component\HttpClient\HttpClient;
@@ -84,19 +85,50 @@ class FeedController extends AbstractController
             try {
                 $client = HttpClient::create();
                 $response = $client->request('GET', $link);
-                $crawler = new Crawler($response->getContent());
+
+                $doc = new DOMDocument();
+                $doc->loadXML($response->getContent());
 
                 $feed = new Feed();
                 $feed->setBaseUrl($link);
-                $feed->setTitle($crawler->filter('channel > title')->text());
-                $feed->setDescription($crawler->filter('channel > description')->text());
-                $feed->setLink($crawler->filter('channel > link')->text());
-                if ($crawler->filter('channel > pubDate')->count()) {
-                    $feed->setPubDate(new DateTime($crawler->filter('channel > pubDate')->text()));
+
+                $element = false;
+                $feeds = $doc->getElementsByTagName('feed');
+                if (1 === $feeds->count()) {
+                    $element = $feeds->item(0);
                 }
-                if ($crawler->filter('channel > lastBuildDate')->count()) {
-                    $feed->setLastBuildDate(new DateTime($crawler->filter('channel > lastBuildDate')->text()));
+
+                $channels = $doc->getElementsByTagName('feed');
+                if (1 === $channels->count()) {
+                    $element = $channels->item(0);
                 }
+
+                if (false === $element instanceof DOMElement) {
+                    throw new Exception('No feed found');
+                }
+
+                foreach ($element->childNodes as $childNode) {
+                    /** @var DOMElement $childNode */
+                    if ('title' === $childNode->nodeName) {
+                        $feed->setTitle(trim($childNode->nodeValue));
+                    }
+                    if ('description' === $childNode->nodeName) {
+                        $feed->setDescription(trim($childNode->nodeValue));
+                    }
+                    if ('link' === $childNode->nodeName) {
+                        $feed->setLink(trim($childNode->nodeValue));
+                    }
+                    if ('updated' === $childNode->nodeName) {
+                        $feed->setLastBuildDate(new DateTime($childNode->nodeValue));
+                    }
+                    if ('pubDate' === $childNode->nodeName) {
+                        $feed->setPubDate(new DateTime($childNode->nodeValue));
+                    }
+                    if ('lastBuildDate' === $childNode->nodeName) {
+                        $feed->setLastBuildDate(new DateTime($childNode->nodeValue));
+                    }
+                }
+
                 $this->getDoctrine()->getManager()->persist($feed);
                 $this->getDoctrine()->getManager()->flush();
                 $this->addFlash('success', 'Feed indexed');
