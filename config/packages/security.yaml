@@ -23,6 +23,9 @@ security:
         main:
             pattern: ^/
             anonymous: true
+            remember_me:
+                secret: '%kernel.secret%'
+                secure: true
             form_login:
                 login_path: home_hello
             logout:

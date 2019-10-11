@@ -17,7 +17,7 @@ use DOMNode;
 use Exception;
 use Symfony\Component\Messenger\MessageBusInterface;
 
-class ChannelIndexer
+class ChannelIndexer implements IndexerInterface
 {
     /**
      * @var EntityManagerInterface
@@ -85,13 +85,12 @@ class ChannelIndexer
 
     /**
      * @param DOMNode $element
-     * @param Origin  $origin
      *
      * @return Item|void|null
      *
      * @throws Exception
      */
-    public function getItem(DOMNode $element, Origin $origin)
+    public function getItem(DOMNode $element)
     {
         foreach ($element->childNodes as $childNode) {
             /** @var DOMElement $childNode */
@@ -104,7 +103,6 @@ class ChannelIndexer
                     $item = new Item();
                     $item->setGuid($guid);
                 }
-                $item->addOrigin($origin);
 
                 return $item;
             }
@@ -117,17 +115,16 @@ class ChannelIndexer
      * @param DOMElement $element
      * @param Origin     $origin
      *
-     * @throws ORMException
-     * @throws OptimisticLockException
      * @throws Exception
      */
     public function indexItem(DOMElement $element, Origin $origin)
     {
-        $item = $this->getItem($element, $origin);
+        $item = $this->getItem($element);
         if (false === $item instanceof Item) {
             return;
         }
 
+        $item->addOrigin($origin);
         foreach ($element->childNodes as $childNode) {
             /** @var DOMElement $childNode */
             if ('pubDate' === $childNode->nodeName) {

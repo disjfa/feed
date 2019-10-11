@@ -3,6 +3,7 @@
 namespace App\Repository;
 
 use App\Entity\Feed;
+use DateTime;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\Common\Persistence\ManagerRegistry;
@@ -33,7 +34,7 @@ class FeedRepository extends ServiceEntityRepository
      */
     public function findFeedsToIndex()
     {
-        $indexDate = new \DateTime('-1 hour');
+        $indexDate = new DateTime('-1 hour');
 
         $qb = $this->createQueryBuilder('feed');
         $qb->where('feed.indexed < :indexed');

@@ -10,14 +10,12 @@ use App\Repository\ItemRepository;
 use DateTime;
 use DateTimeZone;
 use Doctrine\ORM\EntityManagerInterface;
-use Doctrine\ORM\OptimisticLockException;
-use Doctrine\ORM\ORMException;
 use DOMElement;
 use DOMNode;
 use Exception;
 use Symfony\Component\Messenger\MessageBusInterface;
 
-class FeedIndexer
+class FeedIndexer implements IndexerInterface
 {
     /**
      * @var EntityManagerInterface
@@ -51,8 +49,6 @@ class FeedIndexer
      * @param Feed    $feed
      * @param Origin  $origin
      *
-     * @throws ORMException
-     * @throws OptimisticLockException
      * @throws Exception
      */
     public function index(DOMNode $doc, Feed $feed, Origin $origin)
@@ -79,13 +75,12 @@ class FeedIndexer
 
     /**
      * @param DOMNode $element
-     * @param Origin  $origin
      *
      * @return Item|void|null
      *
      * @throws Exception
      */
-    public function getItem(DOMNode $element, Origin $origin)
+    public function getItem(DOMNode $element)
     {
         foreach ($element->childNodes as $childNode) {
             /** @var DOMElement $childNode */
@@ -98,7 +93,6 @@ class FeedIndexer
                     $item = new Item();
                     $item->setGuid($guid);
                 }
-                $item->addOrigin($origin);
 
                 return $item;
             }
@@ -115,11 +109,12 @@ class FeedIndexer
      */
     public function indexItem(DOMElement $element, Origin $origin)
     {
-        $item = $this->getItem($element, $origin);
+        $item = $this->getItem($element);
         if (false === $item instanceof Item) {
             return;
         }
 
+        $item->addOrigin($origin);
         foreach ($element->childNodes as $childNode) {
             /** @var DOMElement $childNode */
             if ('updated' === $childNode->nodeName || 'published' === $childNode->nodeName) {
