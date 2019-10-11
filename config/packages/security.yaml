@@ -26,6 +26,7 @@ security:
             remember_me:
                 secret: '%kernel.secret%'
                 secure: true
+                always_remember_me: true
             form_login:
                 login_path: home_hello
             logout:
