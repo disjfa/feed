@@ -15,7 +15,6 @@ use Symfony\Component\HttpClient\Exception\TransportException;
 use Symfony\Component\HttpClient\HttpClient;
 use Symfony\Component\HttpFoundation\File\File;
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 use Symfony\Component\Messenger\Handler\MessageHandlerInterface;
 use Symfony\Contracts\HttpClient\Exception\ClientExceptionInterface;
 use Symfony\Contracts\HttpClient\Exception\RedirectionExceptionInterface;
@@ -113,7 +112,7 @@ class FetchImageUrlHandler implements MessageHandlerInterface
 
         $contentType = current($headers['content-type']) ?? null;
         if ('image/jpeg' !== $contentType && 'image/png' !== $contentType) {
-            throw new BadRequestHttpException('No image found');
+            return false;
         }
 
         $path = tempnam(sys_get_temp_dir(), 'itm');

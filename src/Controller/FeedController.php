@@ -98,7 +98,7 @@ class FeedController extends AbstractController
                     $element = $feeds->item(0);
                 }
 
-                $channels = $doc->getElementsByTagName('feed');
+                $channels = $doc->getElementsByTagName('channel');
                 if (1 === $channels->count()) {
                     $element = $channels->item(0);
                 }
