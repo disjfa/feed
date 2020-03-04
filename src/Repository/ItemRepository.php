@@ -4,8 +4,11 @@ namespace App\Repository;
 
 use App\Entity\Item;
 use App\Entity\Origin;
+use App\Entity\User;
+use DateTime;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Common\Persistence\ManagerRegistry;
+use Exception;
 use Knp\Component\Pager\Pagination\PaginationInterface;
 use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
@@ -33,19 +36,39 @@ class ItemRepository extends ServiceEntityRepository
         $this->paginator = $paginator;
     }
 
+    public function findStarred(UserInterface $user, int $page = 1)
+    {
+        $date = new DateTime('now');
+
+        $qb = $this->createQueryBuilder('item');
+        $qb->join('item.stars', 'stars');
+        $qb->where('stars.user = :user');
+        $qb->setParameter('user', $user);
+        $qb->andWhere('item.pubDate < :date');
+        $qb->setParameter('date', $date);
+        $qb->orderBy('item.pubDate', 'DESC');
+
+        return $this->paginator->paginate($qb, $page, 15);
+    }
+
     /**
      * @param UserInterface $user
-     * @param int           $page
+     * @param int $page
      *
      * @return PaginationInterface|Item[]
+     * @throws Exception
      */
     public function findFollowing(UserInterface $user, int $page = 1)
     {
+        $date = new DateTime('now');
+
         $qb = $this->createQueryBuilder('item');
         $qb->join('item.origins', 'origin');
         $qb->join('origin.userOrigins', 'userOrigins');
         $qb->where('userOrigins.user = :user');
         $qb->setParameter('user', $user);
+        $qb->andWhere('item.pubDate < :date');
+        $qb->setParameter('date', $date);
         $qb->orderBy('item.pubDate', 'DESC');
 
         return $this->paginator->paginate($qb, $page, 15);

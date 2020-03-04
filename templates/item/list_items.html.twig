@@ -25,6 +25,13 @@
             <a href="#" class="js-scroll-into-view btn" data-target="#top" aria-label="Back up">
                 <i class="fad fa-arrow-up"></i>
             </a>
+            <a href="{{ path('item_like', {'item': item.id}) }}" class="js-star btn" data-item="{{ item.id }}" data-starred="fas fa-star text-primary" data-unstarred="fal fa-star text-secondary">
+                {% if star_service.starred(item) %}
+                    <i class="fas fa-star text-primary"></i>
+                {% else %}
+                    <i class="fal fa-star text-secondary"></i>
+                {% endif %}
+            </a>
         </div>
     </div>
 {% endfor %}

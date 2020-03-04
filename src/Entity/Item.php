@@ -57,6 +57,12 @@ class Item
     private $origins;
 
     /**
+     * @var Star[]
+     * @ORM\OneToMany(targetEntity="Star", cascade={"persist"}, mappedBy="item")
+     */
+    private $stars;
+
+    /**
      * @throws Exception
      */
     public function __construct()

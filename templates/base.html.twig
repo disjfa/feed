@@ -56,6 +56,12 @@
                                         </li>
                                     {% endif %}
                                     <li class="nav-item">
+                                        <a href="{{ path('item_starred') }}" class="nav-link">
+                                            <i class="fad fa-stars"></i>
+                                            {{ 'site.navbar.stars' | trans }}
+                                        </a>
+                                    </li>
+                                    <li class="nav-item">
                                         <a href="{{ path('feed_index') }}" class="nav-link">
                                             <i class="fad fa-rss"></i>
                                             {{ 'site.navbar.feeds' | trans }}
@@ -76,7 +82,7 @@
                                 {% else %}
                                     <li class="nav-item">
                                         <a href="{{ path('user_login') }}" class="nav-link">
-                                            <i class="fad fa-user"></i>
+                                            <i class="fad fa-sign-in"></i>
                                             {{ 'site.navbar.login' | trans }}
                                         </a>
                                     </li>

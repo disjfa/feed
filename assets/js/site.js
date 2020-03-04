@@ -14,5 +14,4 @@ require('popper.js');
 require('bootstrap');
 require('./../../public/bundles/disjfamedia/js/media');
 require('./components/scrolintoview');
-
-console.log('Hello Webpack Encore! Edit me in assets/js/app.js');
+require('./components/star');

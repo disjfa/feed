@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Entity\Feed;
 use App\Repository\ItemRepository;
 use App\Repository\OriginRepository;
+use Exception;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -15,11 +16,12 @@ class HomeController extends AbstractController
     /**
      * @Route("/", name="home_index")
      *
-     * @param ItemRepository   $itemRepository
+     * @param ItemRepository $itemRepository
      * @param OriginRepository $originRepository
-     * @param Request          $request
+     * @param Request $request
      *
      * @return Response
+     * @throws Exception
      */
     public function index(ItemRepository $itemRepository, OriginRepository $originRepository, Request $request)
     {

@@ -29,6 +29,10 @@
         <source>site.navbar.login</source>
         <target>Login</target>
       </trans-unit>
+    <trans-unit id="asdasofug" resname="site.navbar.stars">
+      <source>site.navbar.stars</source>
+      <target>Stars</target>
+    </trans-unit>
     </body>
   </file>
 </xliff>
