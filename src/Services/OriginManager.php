@@ -19,10 +19,6 @@ class OriginManager
      */
     private $entityManager;
 
-    /**
-     * @param OriginRepository       $originRepository
-     * @param EntityManagerInterface $entityManager
-     */
     public function __construct(OriginRepository $originRepository, EntityManagerInterface $entityManager)
     {
         $this->originRepository = $originRepository;
@@ -30,8 +26,6 @@ class OriginManager
     }
 
     /**
-     * @param OriginInterface $originInterface
-     *
      * @return Origin|OriginInterface|null
      *
      * @throws NonUniqueResultException
@@ -48,7 +42,7 @@ class OriginManager
         $origin->setOrigin(get_class($originInterface));
 
         $this->entityManager->persist($origin);
-        $this->entityManager->flush($origin);
+        $this->entityManager->flush();
 
         return $origin;
     }

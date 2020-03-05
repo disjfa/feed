@@ -39,10 +39,6 @@ class FetchImageUrlHandler implements MessageHandlerInterface
 
     /**
      * FetchImageUrlHandler constructor.
-     *
-     * @param ItemRepository         $itemRepository
-     * @param UploadService          $uploadService
-     * @param EntityManagerInterface $entityManager
      */
     public function __construct(ItemRepository $itemRepository, UploadService $uploadService, EntityManagerInterface $entityManager)
     {
@@ -52,8 +48,6 @@ class FetchImageUrlHandler implements MessageHandlerInterface
     }
 
     /**
-     * @param ItemWasCreated $itemWasCreated
-     *
      * @return bool
      *
      * @throws ClientExceptionInterface

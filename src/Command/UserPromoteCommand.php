@@ -31,9 +31,6 @@ class UserPromoteCommand extends Command
 
     /**
      * UserPromoteCommand constructor.
-     *
-     * @param UserRepository         $userRepository
-     * @param EntityManagerInterface $entityManager
      */
     public function __construct(UserRepository $userRepository, EntityManagerInterface $entityManager)
     {
@@ -52,9 +49,6 @@ class UserPromoteCommand extends Command
     }
 
     /**
-     * @param InputInterface  $input
-     * @param OutputInterface $output
-     *
      * @return int|void|null
      */
     protected function execute(InputInterface $input, OutputInterface $output)

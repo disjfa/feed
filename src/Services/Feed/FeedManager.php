@@ -31,10 +31,6 @@ class FeedManager
 
     /**
      * FeedManager constructor.
-     *
-     * @param ChannelIndexer $channelIndexer
-     * @param FeedIndexer    $feedIndexer
-     * @param OriginManager  $originManager
      */
     public function __construct(ChannelIndexer $channelIndexer, FeedIndexer $feedIndexer, OriginManager $originManager)
     {
@@ -44,8 +40,6 @@ class FeedManager
     }
 
     /**
-     * @param Feed $feed
-     *
      * @throws NonUniqueResultException
      * @throws ORMException
      * @throws OptimisticLockException

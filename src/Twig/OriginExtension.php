@@ -28,9 +28,7 @@ class OriginExtension extends AbstractExtension
     /**
      * OriginExtension constructor.
      *
-     * @param EntityManagerInterface $entityManager
-     * @param RouterInterface        $router
-     * @param OriginManager          $originManager
+     * @param OriginManager $originManager
      */
     public function __construct(EntityManagerInterface $entityManager, RouterInterface $router)
     {
@@ -38,9 +36,6 @@ class OriginExtension extends AbstractExtension
         $this->router = $router;
     }
 
-    /**
-     * @return array
-     */
     public function getFilters(): array
     {
         return [
@@ -52,8 +47,6 @@ class OriginExtension extends AbstractExtension
     }
 
     /**
-     * @param Origin $origin
-     *
      * @return string
      */
     public function getOriginLink(Origin $origin, string $class = 'badge badge-dark')

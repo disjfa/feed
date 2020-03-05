@@ -22,9 +22,6 @@ class UserOriginManager
 
     /**
      * UserOriginManager constructor.
-     *
-     * @param EntityManagerInterface $entityManager
-     * @param UserOriginRepository   $userOriginRepository
      */
     public function __construct(EntityManagerInterface $entityManager, UserOriginRepository $userOriginRepository)
     {
@@ -33,9 +30,6 @@ class UserOriginManager
     }
 
     /**
-     * @param UserInterface $user
-     * @param Origin        $origin
-     *
      * @throws NonUniqueResultException
      */
     public function follow(UserInterface $user, Origin $origin)
@@ -52,7 +46,6 @@ class UserOriginManager
 
     /**
      * @param UserInterface $user
-     * @param Origin        $origin
      *
      * @throws NonUniqueResultException
      */

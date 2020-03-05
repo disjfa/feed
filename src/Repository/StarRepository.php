@@ -17,18 +17,14 @@ use Symfony\Component\Security\Core\User\UserInterface;
  */
 class StarRepository extends ServiceEntityRepository
 {
-    /**
-     * @param ManagerRegistry $registry
-     */
     public function __construct(ManagerRegistry $registry)
     {
         parent::__construct($registry, Star::class);
     }
 
     /**
-     * @param Item $item
-     * @param UserInterface $user
      * @return Star|null
+     *
      * @throws NonUniqueResultException
      */
     public function findOneByItemAndUser(Item $item, UserInterface $user)

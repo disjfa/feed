@@ -24,9 +24,6 @@ class UserOriginExtension extends AbstractExtension
 
     /**
      * UserOriginExtension constructor.
-     *
-     * @param UserOriginRepository $userOriginRepository
-     * @param OriginManager        $originManager
      */
     public function __construct(UserOriginRepository $userOriginRepository, OriginManager $originManager)
     {
@@ -34,9 +31,6 @@ class UserOriginExtension extends AbstractExtension
         $this->originManager = $originManager;
     }
 
-    /**
-     * @return array
-     */
     public function getFunctions(): array
     {
         return [
@@ -45,9 +39,6 @@ class UserOriginExtension extends AbstractExtension
     }
 
     /**
-     * @param UserInterface   $user
-     * @param OriginInterface $originInterface
-     *
      * @return UserOrigin|null
      *
      * @throws NonUniqueResultException

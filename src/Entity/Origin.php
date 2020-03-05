@@ -44,49 +44,32 @@ class Origin
         $this->id = Uuid::uuid4();
     }
 
-    /**
-     * @return string
-     */
     public function getId(): string
     {
         return $this->id;
     }
 
-    /**
-     * @return string
-     */
     public function getOrigin(): string
     {
         return $this->origin;
     }
 
-    /**
-     * @param string $origin
-     */
     public function setOrigin(string $origin): void
     {
         $this->origin = $origin;
     }
 
-    /**
-     * @return string
-     */
     public function getOriginId(): string
     {
         return $this->originId;
     }
 
-    /**
-     * @param string $originId
-     */
     public function setOriginId(string $originId): void
     {
         $this->originId = $originId;
     }
 
     /**
-     * @param Origin $other
-     *
      * @return bool
      */
     public function equals(Origin $other)

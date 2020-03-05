@@ -35,8 +35,6 @@ class Star
     private $user;
 
     /**
-     * @param Item $item
-     * @param User $user
      * @throws Exception
      */
     public function __construct(Item $item, User $user)
@@ -46,25 +44,16 @@ class Star
         $this->user = $user;
     }
 
-    /**
-     * @return string
-     */
     public function getId(): string
     {
         return $this->id;
     }
 
-    /**
-     * @return Item
-     */
     public function getItem(): Item
     {
         return $this->item;
     }
 
-    /**
-     * @return User
-     */
     public function getUser(): User
     {
         return $this->user;

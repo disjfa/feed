@@ -1,0 +1,49 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Hello!{% endblock %}
+
+{% block main %}
+    <div class="container py-3">
+        <h1>
+            <i class="fad fa-alicorn"></i>
+            {{ item.title }}
+        </h1>
+        <div class="row">
+            <div class="col-lg-7">
+                {% if item.imageUrl %}
+                    <p>
+                        <img src="{{ asset(item.imagePath) | imagine_filter('medium') }}" alt="" class="img-fluid rounded" loading="lazy">
+                    </p>
+                {% endif %}
+
+                <p>{{ item.description }}</p>
+                <div>
+                    {% for origin in item.origins %}
+                        {{ origin | origin_badge }}
+                    {% endfor %}
+                </div>
+            </div>
+            <div class="col-lg-5">
+                <div>
+                    <h4>
+                        <i class="fad fa-rss"></i>
+                        Your feeds
+                    </h4>
+                    <div class="bg-light p-2">
+                        {% for origin in origins %}
+                            <div class="py-1">
+                                {{ origin | origin_badge('text-truncate d-block') }}
+                            </div>
+                        {% endfor %}
+                        <div class="py-1">
+                            <a href="{{ path('feed_index') }}">
+                                <i class="fad fa-angle-double-right"></i>
+                                More feeds
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

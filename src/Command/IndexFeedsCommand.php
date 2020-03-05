@@ -38,11 +38,6 @@ class IndexFeedsCommand extends Command
 
     /**
      * IndexFeedsCommand constructor.
-     *
-     * @param FeedRepository         $feedRepository
-     * @param MessageBusInterface    $messageBus
-     * @param EntityManagerInterface $entityManager
-     * @param LoggerInterface        $logger
      */
     public function __construct(FeedRepository $feedRepository, MessageBusInterface $messageBus, EntityManagerInterface $entityManager, LoggerInterface $logger)
     {
@@ -60,9 +55,6 @@ class IndexFeedsCommand extends Command
     }
 
     /**
-     * @param InputInterface  $input
-     * @param OutputInterface $output
-     *
      * @return int|void|null
      *
      * @throws Exception

@@ -1,0 +1,51 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Hello!{% endblock %}
+
+{% block main %}
+    <div class="container py-3">
+        {{ form_start(form) }}
+        {{ form_errors(form.title) }}
+        <div class="input-group mb-2">
+            <div class="input-group-prepend">
+                <div class="input-group-text"><i class="fad fa-alicorn"></i></div>
+            </div>
+            {{ form_widget(form.title) }}
+        </div>
+        <div class="row">
+            <div class="col-lg-7">
+                {{ form_rest(form) }}
+                <button type="submit" class="btn btn-primary">
+                    <i class="fad fa-save"></i>
+                    Save
+                </button>
+                <button type="submit" class="btn btn-outline-primary" name="preview">
+                    <i class="fad fa-search"></i>
+                    Preview
+                </button>
+            </div>
+            <div class="col-lg-5">
+                <div>
+                    <h4>
+                        <i class="fad fa-rss"></i>
+                        Your feeds
+                    </h4>
+                    <div class="bg-light p-2">
+                        {% for origin in origins %}
+                            <div class="py-1">
+                                {{ origin | origin_badge('text-truncate d-block') }}
+                            </div>
+                        {% endfor %}
+                        <div class="py-1">
+                            <a href="{{ path('feed_index') }}">
+                                <i class="fad fa-angle-double-right"></i>
+                                More feeds
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        {{ form_end(form) }}
+    </div>
+{% endblock %}

@@ -39,10 +39,6 @@ class UpdateImagesCommand extends Command
 
     /**
      * IndexFeedsCommand constructor.
-     *
-     * @param ItemRepository      $itemRepository
-     * @param MessageBusInterface $messageBus
-     * @param LoggerInterface     $logger
      */
     public function __construct(ItemRepository $itemRepository, MessageBusInterface $messageBus, LoggerInterface $logger)
     {
@@ -59,9 +55,6 @@ class UpdateImagesCommand extends Command
     }
 
     /**
-     * @param InputInterface  $input
-     * @param OutputInterface $output
-     *
      * @return int|void|null
      *
      * @throws Exception

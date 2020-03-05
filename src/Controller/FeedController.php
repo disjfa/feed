@@ -48,8 +48,6 @@ class FeedController extends AbstractController
     /**
      * @Route("/feed/create", name="feed_create")
      *
-     * @param Request $request
-     *
      * @return Response
      *
      * @throws ClientExceptionInterface
@@ -149,10 +147,6 @@ class FeedController extends AbstractController
     /**
      * @Route("/feed/{feed}", name="feed_show")
      *
-     * @param Feed          $feed
-     * @param OriginManager $originManager
-     * @param Request       $request
-     *
      * @return Response
      *
      * @throws NonUniqueResultExceptionAlias
@@ -181,9 +175,6 @@ class FeedController extends AbstractController
 
     /**
      * @Route("/feed/{feed}/handle", name="feed_handle")
-     *
-     * @param MessageBusInterface $messageBus
-     * @param Feed                $feed
      *
      * @return Response
      */

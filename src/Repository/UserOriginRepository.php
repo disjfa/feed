@@ -17,18 +17,12 @@ use Symfony\Component\Security\Core\User\UserInterface;
  */
 class UserOriginRepository extends ServiceEntityRepository
 {
-    /**
-     * @param ManagerRegistry $registry
-     */
     public function __construct(ManagerRegistry $registry)
     {
         parent::__construct($registry, UserOrigin::class);
     }
 
     /**
-     * @param UserInterface $user
-     * @param Origin        $origin
-     *
      * @return UserOrigin|null
      *
      * @throws NonUniqueResultException

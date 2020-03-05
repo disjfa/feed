@@ -44,11 +44,6 @@ class FacebookAuthenticator extends SocialAuthenticator
 
     /**
      * FacebookAuthenticator constructor.
-     *
-     * @param ClientRegistry         $clientRegistry
-     * @param RouterInterface        $router
-     * @param UserRepository         $userRepository
-     * @param EntityManagerInterface $entityManager
      */
     public function __construct(ClientRegistry $clientRegistry, RouterInterface $router, UserRepository $userRepository, EntityManagerInterface $entityManager)
     {
@@ -59,8 +54,6 @@ class FacebookAuthenticator extends SocialAuthenticator
     }
 
     /**
-     * @param Request $request
-     *
      * @return bool
      */
     public function supports(Request $request)
@@ -69,8 +62,6 @@ class FacebookAuthenticator extends SocialAuthenticator
     }
 
     /**
-     * @param Request $request
-     *
      * @return AccessToken|mixed
      */
     public function getCredentials(Request $request)
@@ -79,8 +70,7 @@ class FacebookAuthenticator extends SocialAuthenticator
     }
 
     /**
-     * @param mixed                 $credentials
-     * @param UserProviderInterface $userProvider
+     * @param mixed $credentials
      *
      * @return UserInterface|null
      */
@@ -127,9 +117,7 @@ class FacebookAuthenticator extends SocialAuthenticator
     }
 
     /**
-     * @param Request        $request
-     * @param TokenInterface $token
-     * @param string         $providerKey
+     * @param string $providerKey
      *
      * @return RedirectResponse|Response|null
      */
@@ -141,9 +129,6 @@ class FacebookAuthenticator extends SocialAuthenticator
     }
 
     /**
-     * @param Request                 $request
-     * @param AuthenticationException $exception
-     *
      * @return Response|Response|null
      */
     public function onAuthenticationFailure(Request $request, AuthenticationException $exception)

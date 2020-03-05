@@ -18,17 +18,13 @@ use Symfony\Component\Security\Core\User\UserInterface;
  */
 class OriginRepository extends ServiceEntityRepository
 {
-    /**
-     * @param ManagerRegistry $registry
-     */
     public function __construct(ManagerRegistry $registry)
     {
         parent::__construct($registry, Origin::class);
     }
 
     /**
-     * @param UserInterface $user
-     * @param string        $origin
+     * @param string $origin
      *
      * @return Origin[]|Collection
      */
@@ -47,8 +43,6 @@ class OriginRepository extends ServiceEntityRepository
     }
 
     /**
-     * @param string $originId
-     *
      * @return mixed
      *
      * @throws NonUniqueResultException
@@ -63,8 +57,6 @@ class OriginRepository extends ServiceEntityRepository
     }
 
     /**
-     * @param OriginInterface $entity
-     *
      * @return Origin|null
      *
      * @throws NonUniqueResultException

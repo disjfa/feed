@@ -71,89 +71,56 @@ class Item
         $this->origins = new ArrayCollection();
     }
 
-    /**
-     * @return string
-     */
     public function getId(): string
     {
         return $this->id;
     }
 
-    /**
-     * @return string
-     */
-    public function getTitle(): string
+    public function getTitle(): ?string
     {
         return $this->title;
     }
 
-    /**
-     * @param string $title
-     */
     public function setTitle(string $title): void
     {
         $this->title = $title;
     }
 
-    /**
-     * @return string
-     */
     public function getGuid(): string
     {
         return $this->guid;
     }
 
-    /**
-     * @param string $guid
-     */
     public function setGuid(string $guid): void
     {
         $this->guid = $guid;
     }
 
-    /**
-     * @return string|null
-     */
     public function getLink(): ?string
     {
         return $this->link;
     }
 
-    /**
-     * @param string|null $link
-     */
     public function setLink(?string $link): void
     {
         $this->link = $link;
     }
 
-    /**
-     * @return string|null
-     */
     public function getDescription(): ?string
     {
         return $this->description;
     }
 
-    /**
-     * @param string|null $description
-     */
     public function setDescription(?string $description): void
     {
         $this->description = $description;
     }
 
-    /**
-     * @return DateTime|null
-     */
     public function getPubDate(): ?DateTime
     {
         return $this->pubDate;
     }
 
-    /**
-     * @param DateTime|null $pubDate
-     */
     public function setPubDate(?DateTime $pubDate): void
     {
         $this->pubDate = $pubDate;
@@ -167,9 +134,6 @@ class Item
         return $this->origins;
     }
 
-    /**
-     * @param Origin $itemOrigin
-     */
     public function addOrigin(Origin $itemOrigin)
     {
         if ($this->origins->contains($itemOrigin)) {
@@ -184,9 +148,6 @@ class Item
         $this->origins->add($itemOrigin);
     }
 
-    /**
-     * @param Origin $itemOrigin
-     */
     public function removeOrigin(Origin $itemOrigin)
     {
         if ($this->origins->contains($itemOrigin)) {
@@ -194,17 +155,11 @@ class Item
         }
     }
 
-    /**
-     * @return string|null
-     */
     public function getImageUrl(): ?string
     {
         return $this->imageUrl;
     }
 
-    /**
-     * @param string|null $imageUrl
-     */
     public function setImageUrl(?string $imageUrl): void
     {
         $this->imageUrl = $imageUrl;

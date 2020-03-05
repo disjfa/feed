@@ -72,121 +72,76 @@ class Feed implements OriginInterface
         return $this->title;
     }
 
-    /**
-     * @return string
-     */
     public function getId(): string
     {
         return $this->id;
     }
 
-    /**
-     * @return string
-     */
     public function getBaseUrl(): string
     {
         return $this->baseUrl;
     }
 
-    /**
-     * @param string $baseUrl
-     */
     public function setBaseUrl(string $baseUrl): void
     {
         $this->baseUrl = $baseUrl;
     }
 
-    /**
-     * @return string
-     */
     public function getLink(): string
     {
         return $this->link;
     }
 
-    /**
-     * @param string $link
-     */
     public function setLink(string $link): void
     {
         $this->link = $link;
     }
 
-    /**
-     * @return string
-     */
     public function getTitle(): string
     {
         return $this->title;
     }
 
-    /**
-     * @param string $title
-     */
     public function setTitle(string $title): void
     {
         $this->title = $title;
     }
 
-    /**
-     * @return string|null
-     */
     public function getDescription(): ?string
     {
         return $this->description;
     }
 
-    /**
-     * @param string|null $description
-     */
     public function setDescription(?string $description): void
     {
         $this->description = $description;
     }
 
-    /**
-     * @return DateTime|null
-     */
     public function getLastBuildDate(): ?DateTime
     {
         return $this->lastBuildDate;
     }
 
-    /**
-     * @param DateTime|null $lastBuildDate
-     */
     public function setLastBuildDate(?DateTime $lastBuildDate): void
     {
         $this->lastBuildDate = $lastBuildDate;
     }
 
-    /**
-     * @return DateTime|null
-     */
     public function getPubDate(): ?DateTime
     {
         return $this->pubDate;
     }
 
-    /**
-     * @param DateTime|null $pubDate
-     */
     public function setPubDate(?DateTime $pubDate): void
     {
         $this->pubDate = $pubDate;
     }
 
-    /**
-     * @return DateTime|null
-     */
     public function getIndexed(): ?DateTime
     {
         return $this->indexed;
     }
 
-    /**
-     * @param DateTime|null $indexed
-     */
     public function setIndexed(?DateTime $indexed): void
     {
         $this->indexed = $indexed;

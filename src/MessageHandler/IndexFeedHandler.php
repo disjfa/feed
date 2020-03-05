@@ -21,9 +21,6 @@ class IndexFeedHandler implements MessageHandlerInterface
 
     /**
      * IndexFeedHandler constructor.
-     *
-     * @param FeedRepository $feedRepository
-     * @param FeedManager    $feedManager
      */
     public function __construct(
         FeedRepository $feedRepository,
@@ -34,8 +31,6 @@ class IndexFeedHandler implements MessageHandlerInterface
     }
 
     /**
-     * @param IndexFeed $indexFeed
-     *
      * @return bool
      *
      * @throws Exception

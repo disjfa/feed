@@ -12,7 +12,7 @@ use Symfony\Component\Security\Core\User\UserInterface;
 /**
  * @ORM\Entity(repositoryClass="App\Repository\UserRepository")
  */
-class User implements UserInterface
+class User implements UserInterface, OriginInterface
 {
     const ROLE_DEFAULT = 'ROLE_USER'
     ;
@@ -67,25 +67,22 @@ class User implements UserInterface
         $this->userOrigins = new ArrayCollection();
     }
 
-    /**
-     * @return string|null
-     */
+    public function __toString()
+    {
+        return $this->getUsername();
+    }
+
     public function getId(): ?string
     {
         return $this->id;
     }
 
-    /**
-     * @return string|null
-     */
     public function getEmail(): ?string
     {
         return $this->email;
     }
 
     /**
-     * @param string $email
-     *
      * @return User
      */
     public function setEmail(string $email): self
@@ -118,8 +115,6 @@ class User implements UserInterface
     }
 
     /**
-     * @param array $roles
-     *
      * @return User
      */
     public function setRoles(array $roles): self
@@ -183,49 +178,31 @@ class User implements UserInterface
         // $this->plainPassword = null;
     }
 
-    /**
-     * @return string|null
-     */
     public function getName(): ?string
     {
         return $this->name;
     }
 
-    /**
-     * @param string|null $name
-     */
     public function setName(?string $name): void
     {
         $this->name = $name;
     }
 
-    /**
-     * @return string|null
-     */
     public function getFacebookId(): ?string
     {
         return $this->facebookId;
     }
 
-    /**
-     * @param string|null $facebookId
-     */
     public function setFacebookId(?string $facebookId): void
     {
         $this->facebookId = $facebookId;
     }
 
-    /**
-     * @return string|null
-     */
     public function getFacebookAccessToken(): ?string
     {
         return $this->facebookAccessToken;
     }
 
-    /**
-     * @param string|null $facebookAccessToken
-     */
     public function setFacebookAccessToken(?string $facebookAccessToken): void
     {
         $this->facebookAccessToken = $facebookAccessToken;

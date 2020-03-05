@@ -22,8 +22,6 @@ class StarService
 
     /**
      * LikeService constructor.
-     * @param Security $security
-     * @param StarRepository $starRepository
      */
     public function __construct(Security $security, StarRepository $starRepository)
     {
@@ -32,13 +30,12 @@ class StarService
     }
 
     /**
-     * @param Item $item
-     * @return bool
      * @throws NonUniqueResultException
      */
     public function isStarred(Item $item): bool
     {
         $star = $this->starRepository->findOneByItemAndUser($item, $this->user);
+
         return $star instanceof Star;
     }
 }

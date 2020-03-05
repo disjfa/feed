@@ -34,10 +34,6 @@ class ChannelIndexer implements IndexerInterface
 
     /**
      * ChannelIndexer constructor.
-     *
-     * @param EntityManagerInterface $entityManager
-     * @param ItemRepository         $itemRepository
-     * @param MessageBusInterface    $messageBus
      */
     public function __construct(EntityManagerInterface $entityManager, ItemRepository $itemRepository, MessageBusInterface $messageBus)
     {
@@ -47,10 +43,6 @@ class ChannelIndexer implements IndexerInterface
     }
 
     /**
-     * @param DOMNode $doc
-     * @param Feed    $feed
-     * @param Origin  $origin
-     *
      * @throws ORMException
      * @throws OptimisticLockException
      * @throws Exception
@@ -84,8 +76,6 @@ class ChannelIndexer implements IndexerInterface
     }
 
     /**
-     * @param DOMNode $element
-     *
      * @return Item|void|null
      *
      * @throws Exception
@@ -112,9 +102,6 @@ class ChannelIndexer implements IndexerInterface
     }
 
     /**
-     * @param DOMElement $element
-     * @param Origin     $origin
-     *
      * @throws Exception
      */
     public function indexItem(DOMElement $element, Origin $origin)

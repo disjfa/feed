@@ -4,7 +4,6 @@ namespace App\Repository;
 
 use App\Entity\Item;
 use App\Entity\Origin;
-use App\Entity\User;
 use DateTime;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Common\Persistence\ManagerRegistry;
@@ -26,10 +25,6 @@ class ItemRepository extends ServiceEntityRepository
      */
     private $paginator;
 
-    /**
-     * @param ManagerRegistry    $registry
-     * @param PaginatorInterface $paginator
-     */
     public function __construct(ManagerRegistry $registry, PaginatorInterface $paginator)
     {
         parent::__construct($registry, Item::class);
@@ -52,10 +47,8 @@ class ItemRepository extends ServiceEntityRepository
     }
 
     /**
-     * @param UserInterface $user
-     * @param int $page
-     *
      * @return PaginationInterface|Item[]
+     *
      * @throws Exception
      */
     public function findFollowing(UserInterface $user, int $page = 1)
@@ -75,9 +68,6 @@ class ItemRepository extends ServiceEntityRepository
     }
 
     /**
-     * @param Origin $origin
-     * @param int    $page
-     *
      * @return PaginationInterface|Item[]
      */
     public function findByOrigin(Origin $origin, int $page = 1)

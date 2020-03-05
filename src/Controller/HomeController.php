@@ -16,11 +16,8 @@ class HomeController extends AbstractController
     /**
      * @Route("/", name="home_index")
      *
-     * @param ItemRepository $itemRepository
-     * @param OriginRepository $originRepository
-     * @param Request $request
-     *
      * @return Response
+     *
      * @throws Exception
      */
     public function index(ItemRepository $itemRepository, OriginRepository $originRepository, Request $request)

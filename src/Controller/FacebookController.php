@@ -13,8 +13,6 @@ class FacebookController extends AbstractController
     /**
      * @Route("/connect/facebook", name="connect_facebook_start")
      *
-     * @param ClientRegistry $clientRegistry
-     *
      * @return Response
      */
     public function connectAction(ClientRegistry $clientRegistry)
@@ -28,9 +26,6 @@ class FacebookController extends AbstractController
 
     /**
      * @Route("/connect/facebook/check", name="connect_facebook_check")
-     *
-     * @param Request        $request
-     * @param ClientRegistry $clientRegistry
      */
     public function connectCheckAction(Request $request, ClientRegistry $clientRegistry)
     {

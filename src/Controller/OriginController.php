@@ -24,9 +24,6 @@ class OriginController extends AbstractController
 
     /**
      * OriginController constructor.
-     *
-     * @param UserOriginManager $userOriginManager
-     * @param OriginRepository  $originRepository
      */
     public function __construct(UserOriginManager $userOriginManager, OriginRepository $originRepository)
     {
@@ -36,9 +33,6 @@ class OriginController extends AbstractController
 
     /**
      * @Route("/origin/{originId}/follow", name="origin_follow")
-     *
-     * @param string  $originId
-     * @param Request $request
      *
      * @return Response
      *
@@ -62,9 +56,6 @@ class OriginController extends AbstractController
 
     /**
      * @Route("/origin/{originId}/unfollow", name="origin_unfollow")
-     *
-     * @param string  $originId
-     * @param Request $request
      *
      * @return Response
      *

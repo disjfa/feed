@@ -19,8 +19,6 @@ class FeedRepository extends ServiceEntityRepository
 {
     /**
      * FeedRepository constructor.
-     *
-     * @param ManagerRegistry $registry
      */
     public function __construct(ManagerRegistry $registry)
     {
