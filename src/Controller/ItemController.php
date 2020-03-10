@@ -10,6 +10,7 @@ use App\Repository\ItemRepository;
 use App\Repository\OriginRepository;
 use App\Repository\StarRepository;
 use App\Services\OriginManager;
+use App\Services\UserOriginManager;
 use DateTime;
 use Doctrine\ORM\NonUniqueResultException;
 use Exception;
@@ -66,7 +67,7 @@ class ItemController extends AbstractController
      *
      * @throws NonUniqueResultException
      */
-    public function post(Request $request, OriginRepository $originRepository, OriginManager $originManager, RouterInterface $router)
+    public function post(Request $request, OriginRepository $originRepository, OriginManager $originManager, UserOriginManager $userOriginManager, RouterInterface $router)
     {
         $this->denyAccessUnlessGranted('ROLE_USER');
         $item = new Item();
@@ -76,13 +77,17 @@ class ItemController extends AbstractController
         if ($form->isSubmitted() && $form->isValid() && false === $request->request->has('preview')) {
             $entityManager = $this->getDoctrine()->getManager();
 
-            $origin = $originManager->getOriginByOriginInterface($this->getUser());
+            $user = $this->getUser();
+
+            $origin = $originManager->getOriginByOriginInterface($user);
             $item->addOrigin($origin);
 
             $route = $router->generate('item_view', ['item' => $item->getId()]);
             $item->setGuid($route);
             $item->setLink($route);
             $item->setPubDate(new DateTime('now'));
+
+            $userOriginManager->follow($user, $origin);
 
             $entityManager->persist($item);
             $entityManager->flush();

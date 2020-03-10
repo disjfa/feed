@@ -15,8 +15,7 @@
                         <img src="{{ asset(item.imagePath) | imagine_filter('medium') }}" alt="" class="img-fluid rounded" loading="lazy">
                     </p>
                 {% endif %}
-
-                <p>{{ item.description }}</p>
+                <p>{{ item.description | markdown }}</p>
                 <div>
                     {% for origin in item.origins %}
                         {{ origin | origin_badge }}

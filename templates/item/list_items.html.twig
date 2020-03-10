@@ -8,7 +8,7 @@
         <div class="card-body">
             <h3>{{ item.title }}</h3>
             <small>{{ item.pubDate | date }}</small>
-            <p>{{ item.description | striptags | truncate(400) }}</p>
+            <p>{{ item.description | striptags | markdown | striptags | truncate(400) }}</p>
             <div>
                 {% for origin in item.origins %}
                     {{ origin | origin_badge }}

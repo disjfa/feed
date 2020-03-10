@@ -23,6 +23,12 @@
                     <i class="fad fa-search"></i>
                     Preview
                 </button>
+                {% if item.description %}
+                    <div class="py-3">
+                        <h3>Preview</h3>
+                        {{ item.description | markdown }}
+                    </div>
+                {% endif %}
             </div>
             <div class="col-lg-5">
                 <div>
