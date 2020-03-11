@@ -82,20 +82,27 @@ class ChannelIndexer implements IndexerInterface
      */
     public function getItem(DOMNode $element)
     {
+        $guid = false;
         foreach ($element->childNodes as $childNode) {
             /** @var DOMElement $childNode */
             if ('guid' === $childNode->nodeName) {
                 $guid = trim($childNode->textContent);
-                $item = $this->itemRepository->findOneBy([
-                    'guid' => $guid,
-                ]);
-                if (null === $item) {
-                    $item = new Item();
-                    $item->setGuid($guid);
-                }
-
-                return $item;
             }
+            if ('link' === $childNode->nodeName && false === $guid) {
+                $guid = trim($childNode->textContent);
+            }
+        }
+
+        if ($guid) {
+            $item = $this->itemRepository->findOneBy([
+                'guid' => $guid,
+            ]);
+            if (null === $item) {
+                $item = new Item();
+                $item->setGuid($guid);
+            }
+
+            return $item;
         }
 
         return;
