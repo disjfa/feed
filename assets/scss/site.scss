@@ -1,8 +1,69 @@
+:root {
+  --body-bg: #fff;
+  --body-color: #212529;
+  --card-bg: #fff;
+  --breadcrumb-bg: #e9ecef;
+  --dropdown-bg: #FFF;
+  --dropdown-link-color: #111;
+  --dropdown-link-hover-color: #222;
+  --dropdown-link-hover-bg: #f8f9fa;
+  --navbar-background-color: #ecf0f1;
+  --navbar-light-brand-color: rgba(0, 0, 0, 0.9);
+  --navbar-light-brand-hover-color: rgba(0, 0, 0, 0.9);
+  --navbar-light-color: rgba(0, 0, 0, 0.5);
+  --navbar-light-hover-color: rgba(0, 0, 0, 0.7);
+  --navbar-light-disabled-color: rgba(0, 0, 0, 0.3);
+  --navbar-light-active-color: rgba(0, 0, 0, 0.9);
+  --navbar-light-toggler-border-color: rgba(0, 0, 0, 0.1);
+  --navbar-light-toggler-icon-bg: url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 30 30'><path stroke='rgba(0, 0, 0, 0.5)' stroke-linecap='round' stroke-miterlimit='10' stroke-width='2' d='M4 7h22M4 15h22M4 23h22'/></svg>");
+
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --body-bg: #111;
+    --body-color: #ecf0f1;
+    --card-bg: #1f1f1f;
+    --breadcrumb-bg: #1f1f1f;
+    --dropdown-bg: #1f1f1f;
+    --dropdown-link-color: #eee;
+    --dropdown-link-hover-color: #ddd;
+    --dropdown-link-hover-bg: #232323;
+    --navbar-background-color: #1f1f1f;
+    --navbar-light-brand-color: rgba(255, 255, 255, 0.9);
+    --navbar-light-brand-hover-color: rgba(255, 255, 255, 0.9);
+    --navbar-light-color: rgba(255, 255, 255, 0.5);
+    --navbar-light-hover-color: rgba(255, 255, 255, 0.7);
+    --navbar-light-disabled-color: rgba(255, 255, 255, 0.3);
+    --navbar-light-active-color: rgba(255, 255, 255, 0.9);
+    --navbar-light-toggler-border-color: rgba(255, 255, 255, 0.1);
+    --navbar-light-toggler-icon-bg: url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 30 30'><path stroke='rgba(255, 255, 255, 0.5)' stroke-linecap='round' stroke-miterlimit='10' stroke-width='2' d='M4 7h22M4 15h22M4 23h22'/></svg>");
+  }
+}
+
 $blue: #2980b9;
 $green: #27ae60;
 $cyan: #3498db;
 $yellow: #f1c40f;
 $red: #e74c3c;
+$body-bg: var(--body-bg);
+$body-color: var(--body-color);
+$border-radius: 2px;
+$card-bg: var(--card-bg);
+$breadcrumb-bg: var(--breadcrumb-bg);
+$dropdown-bg: var(--dropdown-bg);
+$dropdown-link-color: var(--dropdown-link-color);
+$dropdown-link-hover-bg: var(--dropdown-link-hover-bg);
+$dropdown-link-hover-color: var(--dropdown-link-hover-color);
+$navbar-background-color: var(--navbar-background-color);
+$navbar-light-brand-color: var(--navbar-light-brand-color);
+$navbar-light-brand-hover-color: var(--navbar-light-brand-hover-color);
+$navbar-light-color: var(--navbar-light-color);
+$navbar-light-hover-color: var(--navbar-light-hover-color);
+$navbar-light-disabled-color: var(--navbar-light-disabled-color);
+$navbar-light-active-color: var(--navbar-light-active-color);
+$navbar-light-toggler-border-color: var(--navbar-light-toggler-border-color);
+$navbar-light-toggler-icon-bg: var(--navbar-light-toggler-icon-bg);
 
 @import "~bootstrap/scss/bootstrap";
 @import "~@fortawesome/fontawesome-pro/scss/fontawesome";
@@ -10,3 +71,7 @@ $red: #e74c3c;
 @import "~@fortawesome/fontawesome-pro/scss/brands";
 @import "~@fortawesome/fontawesome-pro/scss/light";
 @import "~@fortawesome/fontawesome-pro/scss/solid";
+
+.navbar {
+  background-color: var(--navbar-background-color);
+}

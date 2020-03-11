@@ -1,5 +1,5 @@
 {% for item in items %}
-    <div class="card my-2" id="item-{{ item.id }}">
+    <div class="card my-2 mx-n3 mx-sm-0" id="item-{{ item.id }}">
         {% if item.imageUrl %}
             <a href="{{ item.link | default(item.guid) }}" target="_blank">
                 <img src="{{ asset(item.imagePath) | imagine_filter('medium') }}" alt="" class="card-img-top" loading="lazy">
@@ -9,7 +9,7 @@
             <h3>{{ item.title }}</h3>
             <small>{{ item.pubDate | date }}</small>
             <p>{{ item.description | striptags | markdown | striptags | truncate(400) }}</p>
-            <div>
+            <div class="overflow-hidden">
                 {% for origin in item.origins %}
                     {{ origin | origin_badge }}
                 {% endfor %}
