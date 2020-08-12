@@ -1,0 +1,11 @@
+.feed-index {
+  display: flex;
+  flex-wrap: wrap;
+
+  .card {
+    flex-grow: 1;
+    flex-shrink: 0;
+    flex-basis: 300px;
+    max-width: 500px;
+  }
+}

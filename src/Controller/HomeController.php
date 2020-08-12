@@ -2,7 +2,6 @@
 
 namespace App\Controller;
 
-use App\Entity\Feed;
 use App\Repository\ItemRepository;
 use App\Repository\OriginRepository;
 use Exception;
@@ -25,14 +24,13 @@ class HomeController extends AbstractController
         $this->denyAccessUnlessGranted('ROLE_USER');
 
         $items = $itemRepository->findFollowing($this->getUser(), $request->query->getInt('page', 1));
-        $origins = $originRepository->findByUser($this->getUser(), Feed::class);
+
         if (0 === count($items)) {
             return $this->render('home/welcome.html.twig');
         }
 
         return $this->render('home/index.html.twig', [
             'items' => $items,
-            'origins' => $origins,
         ]);
     }
 

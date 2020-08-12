@@ -10,7 +10,7 @@ use Ramsey\Uuid\Uuid;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\OriginRepository")
- * @Table(name="origin",uniqueConstraints={@UniqueConstraint(name="item_origin", columns={"origin", "origin_id"})})
+ * @Table(name="origin",uniqueConstraints={@UniqueConstraint(name="item_origin_origin", columns={"origin", "origin_id"})})
  */
 class Origin
 {

@@ -43,7 +43,7 @@ class ItemRepository extends ServiceEntityRepository
         $qb->setParameter('date', $date);
         $qb->orderBy('item.pubDate', 'DESC');
 
-        return $this->paginator->paginate($qb, $page, 15);
+        return $this->paginator->paginate($qb, $page, 36);
     }
 
     /**
@@ -64,7 +64,7 @@ class ItemRepository extends ServiceEntityRepository
         $qb->setParameter('date', $date);
         $qb->orderBy('item.pubDate', 'DESC');
 
-        return $this->paginator->paginate($qb, $page, 15);
+        return $this->paginator->paginate($qb, $page, 36);
     }
 
     /**
@@ -78,6 +78,6 @@ class ItemRepository extends ServiceEntityRepository
         $qb->setParameter('origin', $origin);
         $qb->orderBy('item.pubDate', 'DESC');
 
-        return $this->paginator->paginate($qb, $page, 15);
+        return $this->paginator->paginate($qb, $page, 36);
     }
 }

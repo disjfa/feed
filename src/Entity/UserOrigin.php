@@ -11,7 +11,7 @@ use Ramsey\Uuid\UuidInterface;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\UserOriginRepository")
- * @Table(name="user_origin",uniqueConstraints={@UniqueConstraint(name="user_origin", columns={"user_id", "origin_id"})})
+ * @Table(name="user_origin",uniqueConstraints={@UniqueConstraint(name="user_user_origin", columns={"user_id", "origin_id"})})
  */
 class UserOrigin
 {

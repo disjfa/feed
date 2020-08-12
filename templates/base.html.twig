@@ -22,7 +22,8 @@
     {% endblock %}
 </head>
 {% block body %}
-    <body id="top">
+    <body>
+    <div id="top"></div>
     {% block wrapper %}
         {% block header %}
             <nav class="navbar navbar-expand-lg {% block navbar_nav_class %}navbar-light{% endblock %}">
@@ -61,11 +62,21 @@
                                             {{ 'site.navbar.stars' | trans }}
                                         </a>
                                     </li>
-                                    <li class="nav-item">
-                                        <a href="{{ path('feed_index') }}" class="nav-link">
+                                    <li class="nav-item dropdown">
+                                        <a href="{{ path('feed_index') }}" class="nav-link dropdown-toggle" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                             <i class="fad fa-rss"></i>
                                             {{ 'site.navbar.feeds' | trans }}
                                         </a>
+                                        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                                            <a href="{{ path('feed_index') }}" class="dropdown-item">
+                                                {{ 'site.navbar.all-feeds' | trans }}
+                                            </a>
+                                            <div class="dropdown-divider"></div>
+
+                                            {% for origin in origin_service.userOrigins %}
+                                                {{ origin | origin_badge('dropdown-item') }}
+                                            {% endfor %}
+                                        </div>
                                     </li>
                                     <li class="nav-item">
                                         <a href="#" class="nav-link">

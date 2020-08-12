@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xliff xmlns="urn:oasis:names:tc:xliff:document:1.2" version="1.2">
+  <file source-language="en" target-language="nl" datatype="plaintext" original="file.ext">
+    <header>
+      <tool tool-id="symfony" tool-name="Symfony"/>
+    </header>
+    <body>
+      <trans-unit id="IVji9DC" resname="success.media_saved">
+        <source>success.media_saved</source>
+        <target>__success.media_saved</target>
+      </trans-unit>
+      <trans-unit id="HI98Sk3" resname="menu.media">
+        <source>menu.media</source>
+        <target>__menu.media</target>
+      </trans-unit>
+    </body>
+  </file>
+</xliff>

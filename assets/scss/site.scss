@@ -17,6 +17,18 @@
   --navbar-light-toggler-border-color: rgba(0, 0, 0, 0.1);
   --navbar-light-toggler-icon-bg: url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 30 30'><path stroke='rgba(0, 0, 0, 0.5)' stroke-linecap='round' stroke-miterlimit='10' stroke-width='2' d='M4 7h22M4 15h22M4 23h22'/></svg>");
 
+  --pagination-color: #2980b9;
+  --pagination-bg: #FFF;
+  --pagination-border-color: #e9ecef;
+  --pagination-disabled-bg: #e9ecef;
+  --pagination-disabled-border-color: #e9ecef;
+  --pagination-hover-bg: #e9ecef;
+  --pagination-hover-color: #212529;
+  --pagination-hover-border-color: #e9ecef;
+  --pagination-active-color: #FFF;
+  --pagination-active-bg: #2980b9;
+  --pagination-active-border-color: #000;
+
 }
 
 @media (prefers-color-scheme: dark) {
@@ -38,8 +50,23 @@
     --navbar-light-active-color: rgba(255, 255, 255, 0.9);
     --navbar-light-toggler-border-color: rgba(255, 255, 255, 0.1);
     --navbar-light-toggler-icon-bg: url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 30 30'><path stroke='rgba(255, 255, 255, 0.5)' stroke-linecap='round' stroke-miterlimit='10' stroke-width='2' d='M4 7h22M4 15h22M4 23h22'/></svg>");
+
+    --pagination-color: #ecf0f1;
+    --pagination-bg: #111;
+    --pagination-border-color: #333;
+    --pagination-disabled-bg: #333;
+    --pagination-disabled-border-color: #333;
+    --pagination-hover-bg: #444;
+    --pagination-hover-color: #ecf0f1;
+    --pagination-hover-border-color: #333;
+    --pagination-active-color: #FFF;
+    --pagination-active-bg: #2980b9;
+    --pagination-active-border-color: #2980b9;
   }
 }
+
+@import "~bootstrap/scss/functions";
+@import "~bootstrap/scss/variables";
 
 $blue: #2980b9;
 $green: #27ae60;
@@ -65,13 +92,51 @@ $navbar-light-active-color: var(--navbar-light-active-color);
 $navbar-light-toggler-border-color: var(--navbar-light-toggler-border-color);
 $navbar-light-toggler-icon-bg: var(--navbar-light-toggler-icon-bg);
 
+$pagination-color: var(--pagination-color);
+$pagination-bg: var(--pagination-bg);
+$pagination-border-color: var(--pagination-border-color);
+$pagination-disabled-bg: var(--pagination-disabled-bg);
+$pagination-disabled-border-color: var(--pagination-disabled-border-color);
+$pagination-hover-bg: var(--pagination-hover-bg);
+$pagination-hover-color: var(--pagination-hover-color);
+$pagination-hover-border-color: var(--pagination-hover-border-color);
+$pagination-active-color: var(--pagination-active-color);
+$pagination-active-bg: var(--pagination-active-bg);
+$pagination-active-border-color: var(--pagination-active-border-color);
+
+$container-max-widths: (
+  sm: 540px,
+  md: 720px,
+  lg: 960px,
+  xl: 1340px
+);
+
+
 @import "~bootstrap/scss/bootstrap";
 @import "~@fortawesome/fontawesome-pro/scss/fontawesome";
 @import "~@fortawesome/fontawesome-pro/scss/duotone";
 @import "~@fortawesome/fontawesome-pro/scss/brands";
 @import "~@fortawesome/fontawesome-pro/scss/light";
 @import "~@fortawesome/fontawesome-pro/scss/solid";
+@import "feed";
 
 .navbar {
   background-color: var(--navbar-background-color);
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+.dropdown-menu {
+  max-width: 100%;
+  .dropdown-item {
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+}
+@media (min-width: 992px) {
+  .dropdown-menu {
+    max-width: 325px;
+  }
 }

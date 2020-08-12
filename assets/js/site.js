@@ -13,6 +13,5 @@ const $ = require('jquery');
 require('popper.js');
 require('bootstrap');
 require('./../../public/bundles/disjfamedia/js/media');
-require('./components/scrolintoview');
 require('./components/star');
 require('./components/textarea');
