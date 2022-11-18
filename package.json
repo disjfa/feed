@@ -1,7 +1,7 @@
 {
     "devDependencies": {
         "@fortawesome/fontawesome-pro": "^5.14.0",
-        "@symfony/webpack-encore": "^0.30.2",
+        "@symfony/webpack-encore": "^4.1.1",
         "core-js": "^3.6.5",
         "node-sass": "^4.14.1",
         "regenerator-runtime": "^0.13.7",
